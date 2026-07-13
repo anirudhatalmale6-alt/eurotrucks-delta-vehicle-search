@@ -49,21 +49,29 @@
 
   /* ---- filter sidebar ---- */
   .side{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:18px}
-  /* icon tiles: measured off the reference site — icon 64x32, tile ~139x88 */
-  .types{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:6px;overflow:hidden;margin-bottom:18px}
-  .type{background:#fff;border:0;padding:10px 4px;cursor:pointer;display:flex;flex-direction:column;
-        align-items:center;justify-content:center;gap:4px;transition:.12s;min-height:88px}
+  /* icon tiles: TWO columns x three rows, icon 64x32, tile 88px tall — as measured */
+  .types{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);
+         border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-bottom:16px}
+  .type{background:#fff;border:0;padding:12px 6px;cursor:pointer;display:flex;flex-direction:column;
+        align-items:center;justify-content:center;gap:6px;transition:.12s;min-height:88px}
   .type svg{width:64px;height:32px;fill:var(--accent);transition:.12s;flex-shrink:0}
-  .type span{font-size:11px;color:var(--grey);font-weight:600;text-align:center;line-height:1.15}
+  .type span{font-size:12.5px;color:#4b5563;font-weight:500;text-align:center;line-height:1.2}
+  .type:hover{background:#fff8e8}
+  .type.on{background:#e9edf4}
+  .type.on span{color:var(--navy);font-weight:600}
   .type:hover{background:#fff8e8}
   .type.on{background:#eef1f7}
   .type.on svg{fill:var(--navy)}
   .type.on span{color:var(--navy)}
 
   .fl{display:block;font-size:13.5px;font-weight:600;color:#333;margin:0 0 5px}
-  .fg{margin-bottom:14px}
-  select,input[type=search],input[type=number]{width:100%;padding:9px 10px;border:1px solid #cfd6df;border-radius:5px;font-size:14px;font-family:inherit;background:#fff;color:var(--ink)}
+  .fg{margin-bottom:12px}
+  select,input[type=search],input[type=number]{width:100%;padding:12px 12px;border:1px solid #d1d5db;
+       border-radius:8px;font-size:15px;font-family:inherit;background:#fff;color:var(--ink)}
   select:focus,input:focus{outline:2px solid var(--accent);border-color:var(--accent)}
+  /* an empty select shows its placeholder in grey, and Model stays greyed until a Make is picked */
+  .side select:invalid,.side select.empty{color:#9ca3af}
+  .side select:disabled{color:#c2c7cf;background:#fff;cursor:not-allowed}
   .pair{display:grid;grid-template-columns:1fr 1fr;gap:8px}
   .swatches{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
   .sw{width:31px;height:31px;border-radius:50%;border:2px solid #d6dce4;cursor:pointer;padding:0;transition:.12s}
@@ -72,9 +80,12 @@
   .equip{max-height:168px;overflow-y:auto;border:1px solid var(--line);border-radius:5px;padding:9px}
   .eq{display:flex;align-items:center;gap:8px;padding:3px 0;font-size:13.5px;color:#374151;cursor:pointer}
   .eq input{width:15px;height:15px;accent-color:var(--navy);cursor:pointer}
-  .apply{width:100%;padding:12px;background:var(--accent);color:var(--navy);border:0;border-radius:5px;font-weight:800;font-size:15px;cursor:pointer;font-family:inherit;margin-top:16px}
+  .apply{width:100%;padding:14px;background:var(--accent);color:var(--navy);border:0;border-radius:8px;
+         font-weight:700;font-size:15px;cursor:pointer;font-family:inherit;margin-top:6px}
   .apply:hover{background:var(--accent-d)}
-  .rst{display:block;width:100%;text-align:center;margin-top:10px;background:none;border:0;color:var(--grey);font-size:14px;cursor:pointer;font-family:inherit;text-decoration:underline}
+  .rst{display:block;width:100%;text-align:center;margin-top:12px;background:none;border:0;
+       color:var(--grey);font-size:15px;cursor:pointer;font-family:inherit}
+  .rst:hover{color:var(--navy)}
   hr{border:0;border-top:1px solid var(--line);margin:15px 0}
 
   /* ---- results toolbar ---- */
@@ -210,26 +221,21 @@
   <aside class="side">
     <div class="types" id="types"></div>
 
-    <div class="fg"><label class="fl" for="q">Search</label>
-      <input type="search" id="q" placeholder="e.g. Sprinter, Scania…"></div>
+    <!-- no labels above these: the label lives inside the box, as on the reference site -->
+    <div class="fg"><select id="brand" aria-label="Make"><option value="">All makes</option></select></div>
+    <div class="fg"><select id="model" aria-label="Model" disabled><option value="">All models</option></select></div>
+    <div class="fg"><select id="cat" aria-label="Category"><option value="">All categories</option></select></div>
+    <div class="fg"><select id="fuel" aria-label="Fuel"><option value="">All fuels</option><option>Diesel</option><option>Electric</option><option>Hybrid</option></select></div>
+    <div class="fg"><select id="gear" aria-label="Gearbox"><option value="">All gearboxes</option><option>Automatic</option><option>Manual</option></select></div>
 
-    <div class="fg"><label class="fl" for="brand">Make</label>
-      <select id="brand"><option value="">All makes</option></select></div>
-
-    <div class="fg"><label class="fl" for="model">Model</label>
-      <select id="model"><option value="">All models</option></select></div>
-
-    <div class="fg"><label class="fl" for="cat">Category</label>
-      <select id="cat"><option value="">All categories</option></select></div>
-
-    <div class="fg"><label class="fl" for="fuel">Fuel</label>
-      <select id="fuel"><option value="">All fuels</option><option>Diesel</option><option>Electric</option><option>Hybrid</option></select></div>
-
-    <div class="fg"><label class="fl" for="gear">Gearbox</label>
-      <select id="gear"><option value="">All</option><option>Automatic</option><option>Manual</option></select></div>
+    <button class="apply" id="apply">Apply filter</button>
+    <button class="rst" id="reset">Reset</button>
 
     <hr>
     <h3 class="dsh">Detailed search</h3>
+
+    <div class="fg"><label class="fl" for="q">Search</label>
+      <input type="search" id="q" placeholder="e.g. Sprinter, Scania…"></div>
 
     <div class="fg"><label class="fl">Price (€)</label>
       <div class="pair"><input type="number" id="pmin" placeholder="from"><input type="number" id="pmax" placeholder="to"></div></div>
@@ -253,8 +259,9 @@
     <div class="fg"><label class="fl">Equipment</label>
       <div class="equip" id="equip"></div></div>
 
-    <button class="apply" id="apply">Apply filter</button>
-    <button class="rst" id="reset">Reset</button>
+    <!-- second Apply/Reset pair at the foot of the detailed search, as on the reference site -->
+    <button class="apply" id="apply2">Apply filter</button>
+    <button class="rst" id="reset2">Reset</button>
   </aside>
 
   <!-- ================= RESULTS ================= -->
@@ -389,13 +396,23 @@ $('types').innerHTML = TYPES.map(t =>
 [...new Set(VEHICLES.map(v=>v.cat))].sort().forEach(c =>
   $('cat').insertAdjacentHTML('beforeend', `<option>${c}</option>`));
 
-/* Model list depends on the chosen Make, exactly like the reference site */
+/* Model list depends on the chosen Make. With no Make picked the box is
+   disabled and greyed out, exactly as on the reference site. */
 function fillModels(){
-  const pool = VEHICLES.filter(v => !S.brand || v.brand === S.brand);
-  const models = [...new Set(pool.map(v => v.model))].sort();
-  $('model').innerHTML = '<option value="">All models</option>' +
+  const sel = $('model');
+  const models = S.brand
+    ? [...new Set(VEHICLES.filter(v => v.brand === S.brand).map(v => v.model))].sort()
+    : [];
+  sel.innerHTML = '<option value="">All models</option>' +
     models.map(m => `<option>${m}</option>`).join('');
+  sel.disabled = !S.brand;
   S.model = '';
+  paintPlaceholders();
+}
+/* grey the text of any select still sitting on its placeholder option */
+function paintPlaceholders(){
+  document.querySelectorAll('.side select').forEach(s =>
+    s.classList.toggle('empty', s.value === ''));
 }
 fillModels();
 
@@ -521,12 +538,14 @@ $('equip').addEventListener('change', e => {
   e.target.checked ? S.equip.add(v) : S.equip.delete(v);
   refilter();
 });
-/* changing the Make rebuilds the Model list */
+/* changing the Make rebuilds (and enables) the Model list */
 $('brand').addEventListener('change', e => {
   S.brand = e.target.value; fillModels(); refilter();
 });
 ['model','cat','fuel','gear','pmin','pmax','ymin','ymax','kmin','kmax','hmin','hmax','sort','dir']
-  .forEach(id => $(id).addEventListener('change', e => { S[id] = e.target.value; refilter(); }));
+  .forEach(id => $(id).addEventListener('change', e => {
+    S[id] = e.target.value; paintPlaceholders(); refilter();
+  }));
 
 /* clicking a category tile filters to it and scrolls back up to the results */
 $('tiles').addEventListener('click', e => {
@@ -565,8 +584,7 @@ $('vlist').addEventListener('click', () => {
   $('grid').classList.add('list');
   $('vlist').classList.add('on'); $('vgrid').classList.remove('on');
 });
-$('apply').addEventListener('click', refilter);
-$('reset').addEventListener('click', () => {
+function resetAll(){
   Object.assign(S,{q:'',brand:'',model:'',cat:'',fuel:'',gear:'',pmin:'',pmax:'',ymin:'',ymax:'',
                    kmin:'',kmax:'',hmin:'',hmax:'',sort:'new',dir:'desc',favOnly:false});
   S.types.clear(); S.colours.clear(); S.equip.clear();
@@ -574,12 +592,16 @@ $('reset').addEventListener('click', () => {
   document.querySelectorAll('#equip input').forEach(x=>x.checked=false);
   ['q','brand','cat','fuel','gear','pmin','pmax','ymin','ymax','kmin','kmax','hmin','hmax']
     .forEach(id=>$(id).value='');
-  fillModels();
+  fillModels();                       // also re-disables Model
   $('sort').value='new'; $('dir').value='desc';
   $('favonly').classList.remove('on');
   refilter();
-});
+}
+/* both Apply/Reset pairs (top and bottom of the rail) do the same thing */
+['apply','apply2'].forEach(id => $(id).addEventListener('click', refilter));
+['reset','reset2'].forEach(id => $(id).addEventListener('click', resetAll));
 
+paintPlaceholders();
 render();
 </script>
 </body>
