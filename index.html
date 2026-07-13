@@ -119,6 +119,30 @@
   .none b{display:block;font-size:18px;margin-bottom:5px}
   .none p{color:var(--grey)}
 
+  .dsh{font-size:15px;font-weight:800;color:var(--navy);margin:0 0 13px}
+
+  /* ---- pagination ---- */
+  .pager{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:26px;flex-wrap:wrap}
+  .pager button{min-width:38px;padding:9px 12px;border:1px solid #cfd6df;background:#fff;border-radius:5px;
+                cursor:pointer;font-family:inherit;font-size:14px;font-weight:600;color:#3d4451}
+  .pager button:hover:not(:disabled){border-color:var(--navy)}
+  .pager button.on{background:var(--navy);border-color:var(--navy);color:#fff}
+  .pager button:disabled{opacity:.4;cursor:not-allowed}
+  .pager .info{width:100%;text-align:center;color:var(--grey);font-size:13px;margin-top:8px}
+
+  /* ---- category tiles ---- */
+  .tiles{background:var(--bg);padding:44px 0 10px}
+  .tiles h2{font-size:27px;font-weight:800;color:var(--ink);margin-bottom:22px}
+  .tiles h2 span{color:var(--navy)}
+  .tgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  .tile{background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden;cursor:pointer;transition:.16s;text-align:left}
+  .tile:hover{box-shadow:0 6px 22px rgba(16,24,40,.13);transform:translateY(-2px)}
+  .tile .tim{aspect-ratio:16/10;background:#eceff3;overflow:hidden}
+  .tile img{width:100%;height:100%;object-fit:cover}
+  .tile .tb{padding:13px 15px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .tile b{font-size:15.5px;color:var(--ink)}
+  .tile em{font-style:normal;font-size:12.5px;color:#fff;background:var(--navy);border-radius:20px;padding:2px 9px;font-weight:700}
+
   /* ---- service block ---- */
   .svc{background:#fff;border-top:1px solid var(--line);padding:48px 0}
   .svc h2{font-size:27px;font-weight:800;color:var(--navy);margin-bottom:5px}
@@ -186,6 +210,9 @@
     <div class="fg"><label class="fl" for="brand">Make</label>
       <select id="brand"><option value="">All makes</option></select></div>
 
+    <div class="fg"><label class="fl" for="model">Model</label>
+      <select id="model"><option value="">All models</option></select></div>
+
     <div class="fg"><label class="fl" for="cat">Category</label>
       <select id="cat"><option value="">All categories</option></select></div>
 
@@ -196,6 +223,7 @@
       <select id="gear"><option value="">All</option><option>Automatic</option><option>Manual</option></select></div>
 
     <hr>
+    <h3 class="dsh">Detailed search</h3>
 
     <div class="fg"><label class="fl">Price (€)</label>
       <div class="pair"><input type="number" id="pmin" placeholder="from"><input type="number" id="pmax" placeholder="to"></div></div>
@@ -231,9 +259,13 @@
         <label for="sort">Sort by:</label>
         <select id="sort">
           <option value="new">Newest first</option>
-          <option value="plow">Price ascending</option>
-          <option value="phigh">Price descending</option>
-          <option value="year">Year</option>
+          <option value="price">Price</option>
+          <option value="km">Mileage</option>
+          <option value="year">First registration</option>
+        </select>
+        <select id="dir">
+          <option value="desc">Descending</option>
+          <option value="asc">Ascending</option>
         </select>
         <div class="vw">
           <button id="vgrid" class="on" aria-label="Grid view">
@@ -249,8 +281,15 @@
       </div>
     </div>
     <div class="grid" id="grid"></div>
+    <div class="pager" id="pager"></div>
   </main>
 </div>
+
+<!-- ================= CATEGORY TILES ================= -->
+<section class="tiles"><div class="wrap">
+  <h2>Our <span>commercial vehicles</span></h2>
+  <div class="tgrid" id="tiles"></div>
+</div></section>
 
 <!-- ================= SERVICE ================= -->
 <section class="svc"><div class="wrap">
@@ -327,9 +366,11 @@ const EQUIP = ['ABS','Air conditioning','Cruise control','Tail lift','Cooling un
   'Bluetooth','Parking sensors','Reversing camera','Trailer hitch','ESP','Heated seats',
   'Automatic climate','Euro 6','Twin wheels','Side door'];
 
-const S = {q:'',types:new Set(),brand:'',cat:'',fuel:'',gear:'',
+const PER_PAGE = 6;
+
+const S = {q:'',types:new Set(),brand:'',model:'',cat:'',fuel:'',gear:'',
   pmin:'',pmax:'',ymin:'',ymax:'',kmin:'',kmax:'',hmin:'',hmax:'',
-  colours:new Set(),equip:new Set(),sort:'new',favOnly:false};
+  colours:new Set(),equip:new Set(),sort:'new',dir:'desc',favOnly:false,page:1};
 
 let FAVS = new Set(JSON.parse(localStorage.getItem('etd_favs') || '[]'));
 const saveFavs = () => localStorage.setItem('etd_favs', JSON.stringify([...FAVS]));
@@ -341,6 +382,28 @@ $('types').innerHTML = TYPES.map(t =>
   $('brand').insertAdjacentHTML('beforeend', `<option>${b}</option>`));
 [...new Set(VEHICLES.map(v=>v.cat))].sort().forEach(c =>
   $('cat').insertAdjacentHTML('beforeend', `<option>${c}</option>`));
+
+/* Model list depends on the chosen Make, exactly like the reference site */
+function fillModels(){
+  const pool = VEHICLES.filter(v => !S.brand || v.brand === S.brand);
+  const models = [...new Set(pool.map(v => v.model))].sort();
+  $('model').innerHTML = '<option value="">All models</option>' +
+    models.map(m => `<option>${m}</option>`).join('');
+  S.model = '';
+}
+fillModels();
+
+/* category tiles, each showing how many vehicles are in it */
+const TILES = [...new Set(VEHICLES.map(v=>v.cat))].sort().map(c => ({
+  cat: c,
+  n: VEHICLES.filter(v=>v.cat===c).length,
+  img: (VEHICLES.find(v=>v.cat===c)||{}).img,
+}));
+$('tiles').innerHTML = TILES.map(t => `
+  <button class="tile" data-c="${t.cat}">
+    <div class="tim"><img src="${t.img}" alt="${t.cat}" loading="lazy"></div>
+    <div class="tb"><b>${t.cat}</b><em>${t.n}</em></div>
+  </button>`).join('');
 $('sw').innerHTML = COLOURS.map(([n,c]) =>
   `<button class="sw" data-c="${n}" title="${n}" style="background:${c}"></button>`).join('');
 $('equip').innerHTML = EQUIP.map(e =>
@@ -354,6 +417,7 @@ function ok(v){
   }
   if (S.types.size && !S.types.has(v.cat)) return false;
   if (S.brand && v.brand!==S.brand) return false;
+  if (S.model && v.model!==S.model) return false;
   if (S.cat   && v.cat  !==S.cat)   return false;
   if (S.fuel  && v.fuel !==S.fuel)  return false;
   if (S.gear  && v.gear !==S.gear)  return false;
@@ -366,8 +430,14 @@ function ok(v){
   // products yet — see the note to the client. Once added they filter here.
   return true;
 }
-const SORT = {plow:(a,b)=>a.price-b.price, phigh:(a,b)=>b.price-a.price,
-              year:(a,b)=>b.year-a.year,   new:(a,b)=>b.year-a.year};
+/* one sort field + one direction, like the reference site's two dropdowns.
+   'new' is a fixed order, so the direction toggle doesn't apply to it. */
+const KEY = {price:v=>v.price, year:v=>v.year, km:v=>v.km ?? 0, new:v=>v.year};
+function sortList(list){
+  const k = KEY[S.sort] || KEY.new;
+  const sign = (S.sort === 'new' || S.dir === 'desc') ? -1 : 1;
+  return list.sort((a,b) => (k(a) - k(b)) * sign);
+}
 
 const na = '<em>on request</em>';
 
@@ -401,33 +471,72 @@ function card(v){
 }
 
 function render(){
-  const list = VEHICLES.filter(ok).sort(SORT[S.sort]);
+  const list  = sortList(VEHICLES.filter(ok));
+  const pages = Math.max(1, Math.ceil(list.length / PER_PAGE));
+  if (S.page > pages) S.page = pages;
+
+  const start = (S.page - 1) * PER_PAGE;
+  const slice = list.slice(start, start + PER_PAGE);
+
   $('n').textContent = list.length;
-  $('grid').innerHTML = list.length ? list.map(card).join('')
+  $('grid').innerHTML = slice.length ? slice.map(card).join('')
     : `<div class="none"><b>No vehicles match your filters</b><p>Try widening the range, or reset the filters.</p></div>`;
+
+  // pagination — only worth showing when there is more than one page
+  if (list.length <= PER_PAGE){ $('pager').innerHTML = ''; return; }
+  let btns = `<button data-p="${S.page-1}" ${S.page===1?'disabled':''}>Back</button>`;
+  for (let i=1; i<=pages; i++)
+    btns += `<button data-p="${i}" class="${i===S.page?'on':''}">${i}</button>`;
+  btns += `<button data-p="${S.page+1}" ${S.page===pages?'disabled':''}>Next</button>`;
+  btns += `<div class="info">Page ${S.page} of ${pages} (${list.length} results)</div>`;
+  $('pager').innerHTML = btns;
 }
 
+/* any filter change sends you back to page 1 — otherwise you can land on an
+   empty page 4 after narrowing the results down to five vehicles. */
+function refilter(){ S.page = 1; render(); }
+
 /* ---- wiring ---- */
-$('q').addEventListener('input', e => { S.q = e.target.value; render(); });
+$('q').addEventListener('input', e => { S.q = e.target.value; refilter(); });
 $('types').addEventListener('click', e => {
   const b = e.target.closest('.type'); if(!b) return;
   const t = b.dataset.t;
   S.types.has(t) ? S.types.delete(t) : S.types.add(t);
-  b.classList.toggle('on'); render();
+  b.classList.toggle('on'); refilter();
 });
 $('sw').addEventListener('click', e => {
   const b = e.target.closest('.sw'); if(!b) return;
   const c = b.dataset.c;
   S.colours.has(c) ? S.colours.delete(c) : S.colours.add(c);
-  b.classList.toggle('on'); render();
+  b.classList.toggle('on'); refilter();
 });
 $('equip').addEventListener('change', e => {
   const v = e.target.value;
   e.target.checked ? S.equip.add(v) : S.equip.delete(v);
-  render();
+  refilter();
 });
-['brand','cat','fuel','gear','pmin','pmax','ymin','ymax','kmin','kmax','hmin','hmax','sort']
-  .forEach(id => $(id).addEventListener('change', e => { S[id] = e.target.value; render(); }));
+/* changing the Make rebuilds the Model list */
+$('brand').addEventListener('change', e => {
+  S.brand = e.target.value; fillModels(); refilter();
+});
+['model','cat','fuel','gear','pmin','pmax','ymin','ymax','kmin','kmax','hmin','hmax','sort','dir']
+  .forEach(id => $(id).addEventListener('change', e => { S[id] = e.target.value; refilter(); }));
+
+/* clicking a category tile filters to it and scrolls back up to the results */
+$('tiles').addEventListener('click', e => {
+  const t = e.target.closest('.tile'); if(!t) return;
+  S.cat = t.dataset.c;
+  $('cat').value = S.cat;
+  refilter();
+  document.querySelector('.cols').scrollIntoView({behavior:'smooth'});
+});
+
+$('pager').addEventListener('click', e => {
+  const b = e.target.closest('button[data-p]'); if(!b || b.disabled) return;
+  S.page = +b.dataset.p;
+  render();
+  document.querySelector('.cols').scrollIntoView({behavior:'smooth'});
+});
 
 $('grid').addEventListener('click', e => {
   const h = e.target.closest('.heart'); if(!h) return;
@@ -440,7 +549,7 @@ $('grid').addEventListener('click', e => {
 $('favonly').addEventListener('click', () => {
   S.favOnly = !S.favOnly;
   $('favonly').classList.toggle('on', S.favOnly);
-  render();
+  refilter();
 });
 $('vgrid').addEventListener('click', () => {
   $('grid').classList.remove('list');
@@ -450,18 +559,19 @@ $('vlist').addEventListener('click', () => {
   $('grid').classList.add('list');
   $('vlist').classList.add('on'); $('vgrid').classList.remove('on');
 });
-$('apply').addEventListener('click', render);
+$('apply').addEventListener('click', refilter);
 $('reset').addEventListener('click', () => {
-  Object.assign(S,{q:'',brand:'',cat:'',fuel:'',gear:'',pmin:'',pmax:'',ymin:'',ymax:'',
-                   kmin:'',kmax:'',hmin:'',hmax:'',sort:'new',favOnly:false});
+  Object.assign(S,{q:'',brand:'',model:'',cat:'',fuel:'',gear:'',pmin:'',pmax:'',ymin:'',ymax:'',
+                   kmin:'',kmax:'',hmin:'',hmax:'',sort:'new',dir:'desc',favOnly:false});
   S.types.clear(); S.colours.clear(); S.equip.clear();
   document.querySelectorAll('.type.on,.sw.on').forEach(x=>x.classList.remove('on'));
   document.querySelectorAll('#equip input').forEach(x=>x.checked=false);
   ['q','brand','cat','fuel','gear','pmin','pmax','ymin','ymax','kmin','kmax','hmin','hmax']
     .forEach(id=>$(id).value='');
-  $('sort').value='new';
+  fillModels();
+  $('sort').value='new'; $('dir').value='desc';
   $('favonly').classList.remove('on');
-  render();
+  refilter();
 });
 
 render();
