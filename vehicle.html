@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vehicle — EuroTrucks Delta GmbH</title>
+<style>
+  :root{
+    --accent:#feb81c; --accent-d:#e5a413;
+    --navy:#021f6e; --navy-l:#0b3d90;
+    --ink:#1a1a1a; --grey:#6b7280; --line:#e3e7ed; --bg:#f9fafc; --card:#fff;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+       background:var(--bg);color:var(--ink);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  img{max-width:100%;display:block}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1280px;margin:0 auto;padding:0 20px}
+
+  .strip{display:flex;height:9px}
+  .strip i{flex:1;background:var(--accent)} .strip b{flex:1;background:var(--navy)}
+  header{background:#fff;position:sticky;top:0;z-index:60;box-shadow:0 2px 10px rgba(0,0,0,.07)}
+  .head{display:flex;align-items:center;gap:26px;height:88px}
+  .logo{display:flex;align-items:center;gap:10px}
+  .logo .mk{width:44px;height:44px;border-radius:9px;background:var(--navy);color:var(--accent);
+            display:grid;place-items:center;font-weight:900;font-size:22px}
+  .logo .tx{font-weight:800;font-size:21px;color:var(--navy);line-height:1.1}
+  .logo .tx small{display:block;font-size:10px;letter-spacing:2px;color:var(--grey);font-weight:600}
+  nav{margin-left:auto;display:flex;gap:4px}
+  nav a{padding:9px 15px;border-radius:6px;font-size:15px;font-weight:500}
+  nav a:hover{color:var(--navy)}
+  nav a.on{background:var(--accent);color:var(--navy);font-weight:700}
+
+  .crumb{padding:16px 0;font-size:14px;color:var(--grey)}
+  .crumb a:hover{color:var(--navy)}
+
+  /* two columns: gallery left, summary right — as on the reference detail page */
+  .cols{display:grid;grid-template-columns:1fr 600px;gap:24px;align-items:start;padding-bottom:44px}
+
+  .gal{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px}
+  .main{position:relative;aspect-ratio:4/3;border-radius:6px;overflow:hidden;background:#eceff3}
+  .main img{width:100%;height:100%;object-fit:cover}
+  .nav-b{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;
+         border:0;background:rgba(255,255,255,.92);cursor:pointer;font-size:20px;color:var(--navy);
+         display:grid;place-items:center;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+  .nav-b:hover{background:#fff}
+  .prev{left:12px} .next{right:12px}
+  .count{position:absolute;right:12px;bottom:12px;background:rgba(1,20,63,.82);color:#fff;
+         font-size:12.5px;font-weight:600;padding:4px 10px;border-radius:20px}
+  .thumbs{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-top:10px}
+  .thumbs button{border:2px solid transparent;border-radius:5px;overflow:hidden;cursor:pointer;
+                 padding:0;background:#eceff3;aspect-ratio:4/3}
+  .thumbs img{width:100%;height:100%;object-fit:cover}
+  .thumbs button.on{border-color:var(--accent)}
+
+  .box{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:22px;margin-bottom:18px}
+  .box h1{font-size:30px;font-weight:800;color:var(--ink);line-height:1.15}
+  .box .sub{color:var(--grey);font-size:16px;margin-top:4px}
+  .price{font-size:34px;font-weight:800;color:var(--navy);margin-top:14px}
+  .vat{font-size:13.5px;color:var(--grey);margin-top:2px}
+
+  .btns{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .b1,.b2{height:52px;border-radius:6px;font-weight:700;font-size:15px;cursor:pointer;font-family:inherit;
+          display:flex;align-items:center;justify-content:center;border:1px solid var(--navy)}
+  .b1{background:var(--navy);color:#fff}   .b1:hover{background:var(--navy-l)}
+  .b2{background:#fff;color:var(--navy)}   .b2:hover{background:#eef1f7}
+  .share{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:14px;
+         color:var(--grey);font-size:14.5px;cursor:pointer;background:none;border:0;width:100%;font-family:inherit}
+  .share:hover{color:var(--navy)}
+
+  h3.t{font-size:19px;font-weight:800;color:var(--ink);margin-bottom:16px}
+  .glance{display:grid;grid-template-columns:repeat(3,1fr);gap:18px 14px}
+  .gi{display:flex;gap:9px}
+  .gi svg{width:20px;height:20px;fill:var(--navy);flex-shrink:0;margin-top:2px}
+  .gi .k{font-size:12.5px;color:var(--grey);line-height:1.25}
+  .gi .v{font-size:15px;font-weight:700;color:var(--ink);line-height:1.3}
+  .gi .v em{font-style:normal;font-weight:500;color:#aeb4bd}
+
+  table{width:100%;border-collapse:collapse}
+  td{padding:11px 0;border-bottom:1px solid var(--line);font-size:15px}
+  td:first-child{color:var(--grey);width:46%}
+  td:last-child{font-weight:600;text-align:right}
+  td em{font-style:normal;font-weight:500;color:#aeb4bd}
+
+  .feats{display:flex;flex-wrap:wrap;gap:8px}
+  .feats span{background:#f1f4f9;color:#3d4451;font-size:13.5px;padding:6px 12px;border-radius:5px;font-weight:600}
+  .wltp{font-size:12px;color:#9aa2ad;line-height:1.6;margin-top:14px}
+
+  .form{display:grid;gap:11px}
+  .form input,.form textarea{width:100%;padding:12px;border:1px solid #d1d5db;border-radius:8px;
+       font-size:15px;font-family:inherit}
+  .form textarea{min-height:96px;resize:vertical}
+  .form input:focus,.form textarea:focus{outline:2px solid var(--accent);border-color:var(--accent)}
+  .send{height:52px;background:var(--accent);color:var(--navy);border:0;border-radius:8px;
+        font-weight:800;font-size:15px;cursor:pointer;font-family:inherit}
+  .send:hover{background:var(--accent-d)}
+  .note{font-size:12.5px;color:var(--grey)}
+  .ok{display:none;background:#e7f6ec;border:1px solid #b7e2c4;color:#1c6b34;
+      padding:12px;border-radius:8px;font-size:14.5px;font-weight:600}
+
+  footer{background:var(--navy);color:#a9b6d6;padding:42px 0 24px;font-size:14px;margin-top:20px}
+  .fc{display:grid;grid-template-columns:2fr 1fr 1fr;gap:34px;padding-bottom:26px;border-bottom:1px solid rgba(255,255,255,.13)}
+  footer h4{color:#fff;font-size:13px;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:13px}
+  footer li{list-style:none;margin-bottom:7px}
+  footer a:hover{color:var(--accent)}
+  .lg{padding-top:19px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-size:13px}
+  .demo{background:var(--navy);color:var(--accent);text-align:center;padding:9px 16px;font-size:13.5px;font-weight:600}
+
+  @media(max-width:1050px){
+    .cols{grid-template-columns:1fr}
+    nav{display:none}
+    .glance{grid-template-columns:1fr 1fr}
+    .thumbs{grid-template-columns:repeat(4,1fr)}
+    .fc{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<div class="demo">DEMO for EuroTrucks Delta GmbH — your truck, your photos, your brand.</div>
+<div class="strip"><i></i><b></b></div>
+
+<header><div class="wrap head">
+  <a class="logo" href="index.html">
+    <span class="mk">E</span><span class="tx">EuroTrucks Delta<small>GMBH</small></span>
+  </a>
+  <nav>
+    <a class="on" href="index.html">Home</a><a href="#">Workshop</a><a href="#">Service</a>
+    <a href="#">Locations</a><a href="#">Jobs</a>
+  </nav>
+</div></header>
+
+<div class="wrap">
+  <div class="crumb"><a href="index.html">Home</a> &rsaquo; <a href="index.html">Vehicles</a> &rsaquo; <span id="crumb"></span></div>
+
+  <div class="cols">
+    <!-- ---------- gallery ---------- -->
+    <div>
+      <div class="gal">
+        <div class="main">
+          <img id="big" src="" alt="">
+          <button class="nav-b prev" id="prev" aria-label="Previous photo">&#8249;</button>
+          <button class="nav-b next" id="next" aria-label="Next photo">&#8250;</button>
+          <div class="count" id="count"></div>
+        </div>
+        <div class="thumbs" id="thumbs"></div>
+      </div>
+
+      <div class="box" style="margin-top:18px">
+        <h3 class="t">Specifications</h3>
+        <table id="specs"></table>
+      </div>
+
+      <div class="box">
+        <h3 class="t">Equipment &amp; features</h3>
+        <div class="feats" id="feats"></div>
+      </div>
+
+      <div class="box">
+        <h3 class="t">Vehicle description</h3>
+        <p id="desc" style="color:#4b5563"></p>
+        <p class="wltp">
+          Fuel consumption and CO₂ figures are stated in accordance with the German
+          Pkw-EnVKV where applicable. Values depend on driving style and other non-technical factors.
+        </p>
+      </div>
+    </div>
+
+    <!-- ---------- summary ---------- -->
+    <aside>
+      <div class="box">
+        <h1 id="title"></h1>
+        <div class="sub" id="subtitle"></div>
+        <div class="price" id="price"></div>
+        <div class="vat" id="vat"></div>
+      </div>
+
+      <div class="box">
+        <div class="btns">
+          <button class="b1" id="enq">Enquire &amp; test drive</button>
+          <button class="b2" id="call">Contact seller</button>
+        </div>
+        <button class="share" id="share">Share this vehicle</button>
+      </div>
+
+      <div class="box">
+        <h3 class="t">At a glance</h3>
+        <div class="glance" id="glance"></div>
+      </div>
+
+      <div class="box" id="formbox">
+        <h3 class="t">Contact enquiry</h3>
+        <div class="ok" id="ok">Thank you — we have your enquiry and will come back to you shortly.</div>
+        <form class="form" id="form">
+          <input id="fname" placeholder="Your name" required>
+          <input id="femail" type="email" placeholder="Your email" required>
+          <input id="fphone" placeholder="Your phone (optional)">
+          <textarea id="fmsg" placeholder="Your message"></textarea>
+          <button class="send" type="submit">Send enquiry</button>
+          <p class="note">We reply to enquiries within one working day.</p>
+        </form>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<footer><div class="wrap">
+  <div class="fc">
+    <div>
+      <h4>EuroTrucks Delta GmbH</h4>
+      <p style="max-width:400px">Commercial vehicle trading since 1991. Trucks, tractor units, vans,
+      tippers and trailers — sold and exported across Europe from our yard in Wiesbaden.</p>
+    </div>
+    <div><h4>Vehicles</h4><ul>
+      <li><a href="index.html">Trucks</a></li><li><a href="index.html">Tractor units</a></li>
+      <li><a href="index.html">Vans</a></li><li><a href="index.html">Trailers</a></li></ul></div>
+    <div><h4>Company</h4><ul>
+      <li><a href="#">Contact</a></li><li><a href="#">Impressum</a></li>
+      <li><a href="#">Datenschutz</a></li><li><a href="#">AGB</a></li></ul></div>
+  </div>
+  <div class="lg"><span>© 2026 EuroTrucks Delta GmbH</span><span>Herderstr. 12, 65185 Wiesbaden · Germany</span></div>
+</div></footer>
+
+<script src="vehicles.js"></script>
+<script>
+const $ = i => document.getElementById(i);
+const eur = n => n.toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2}) + ' €';
+const NA = '<em>on request</em>';
+
+/* which vehicle? ?i=<index>, falling back to the first */
+const params = new URLSearchParams(location.search);
+const idx = Math.min(Math.max(parseInt(params.get('i') || '0', 10) || 0, 0), VEHICLES.length - 1);
+const v = VEHICLES[idx];
+
+const ICON = {
+  cal:'<svg viewBox="0 0 24 24"><path d="M7 2v3M17 2v3M3 8h18M4 5h16v16H4z" fill="none" stroke="currentColor" stroke-width="2"/></svg>',
+  road:'<svg viewBox="0 0 24 24"><path d="M4 21L8 3h8l4 18h-4l-1-5h-6l-1 5z"/></svg>',
+  bolt:'<svg viewBox="0 0 24 24"><path d="M13 2L4 14h6l-1 8 9-12h-6z"/></svg>',
+  fuel:'<svg viewBox="0 0 24 24"><path d="M3 3h10v18H3zM15 8l3 3v7a2 2 0 0 1-4 0"/></svg>',
+  gear:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2" stroke="currentColor" stroke-width="2" fill="none"/></svg>',
+  tag:'<svg viewBox="0 0 24 24"><path d="M5 3h14v18l-7-5-7 5z"/></svg>',
+  share:'<svg viewBox="0 0 24 24" style="width:17px;height:17px;fill:currentColor"><path d="M18 16a3 3 0 0 0-2 .8l-7-4a3 3 0 0 0 0-1.6l7-4A3 3 0 1 0 15 5l-7 4a3 3 0 1 0 0 6l7 4a3 3 0 1 0 3-3z"/></svg>',
+};
+
+/* ---- header ---- */
+document.title = `${v.brand} ${v.model} — EuroTrucks Delta GmbH`;
+$('crumb').textContent   = v.model;
+$('title').textContent   = `${v.brand} ${v.model}`;
+$('subtitle').textContent= v.name;
+$('price').textContent    = eur(v.price);
+/* German VAT: the listed price is net, so show gross alongside it */
+$('vat').innerHTML = `${eur(Math.round(v.price * 1.19 * 100) / 100)} gross &middot; 19% VAT &middot; price shown excl. VAT`;
+
+/* ---- gallery ---- */
+const pics = (v.gallery && v.gallery.length) ? v.gallery : [v.img];
+let cur = 0;
+$('thumbs').innerHTML = pics.map((p,i) =>
+  `<button data-i="${i}" class="${i===0?'on':''}"><img src="${p}" alt="" loading="lazy"></button>`).join('');
+function show(i){
+  cur = (i + pics.length) % pics.length;
+  $('big').src = pics[cur];
+  $('big').alt = v.name;
+  $('count').textContent = `${cur+1} / ${pics.length}`;
+  document.querySelectorAll('.thumbs button').forEach((b,j) => b.classList.toggle('on', j===cur));
+}
+$('thumbs').addEventListener('click', e => {
+  const b = e.target.closest('button'); if(b) show(+b.dataset.i);
+});
+$('prev').addEventListener('click', () => show(cur-1));
+$('next').addEventListener('click', () => show(cur+1));
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowLeft')  show(cur-1);
+  if (e.key === 'ArrowRight') show(cur+1);
+});
+show(0);
+
+/* ---- at a glance ---- */
+const glance = [
+  ['cal','First registration', v.year],
+  ['road','Mileage',           v.km   ?? null],
+  ['bolt','Power',             v.ps   ?? null],
+  ['fuel','Fuel',              v.fuel],
+  ['gear','Gearbox',           v.gear],
+  ['tag','Category',           v.cat],
+];
+$('glance').innerHTML = glance.map(([ic,k,val]) => `
+  <div class="gi">${ICON[ic]}
+    <div><div class="k">${k}</div><div class="v">${val ?? NA}</div></div>
+  </div>`).join('');
+
+/* ---- specifications ---- */
+const specs = [
+  ['Make', v.brand], ['Model', v.model], ['Category', v.cat],
+  ['First registration', v.year], ['Mileage', v.km ?? null], ['Power', v.ps ?? null],
+  ['Fuel', v.fuel], ['Gearbox', v.gear], ['Price (excl. VAT)', eur(v.price)],
+];
+$('specs').innerHTML = specs.map(([k,val]) =>
+  `<tr><td>${k}</td><td>${val ?? NA}</td></tr>`).join('');
+
+/* ---- equipment ---- */
+$('feats').innerHTML = (v.feats && v.feats.length)
+  ? v.feats.map(f => `<span>${f}</span>`).join('')
+  : `<span style="background:none;color:#aeb4bd;padding-left:0">Equipment list comes from the product fields once they are set up.</span>`;
+
+$('desc').textContent = v.desc && v.desc.length > 3
+  ? v.desc
+  : `${v.brand} ${v.model}, first registered ${v.year}. Inspected and ready to drive. Delivery and export across Europe — ask us for a quote.`;
+
+/* ---- buttons ---- */
+const toForm = () => { $('formbox').scrollIntoView({behavior:'smooth'}); $('fname').focus(); };
+$('enq').addEventListener('click', toForm);
+$('call').addEventListener('click', toForm);
+$('share').innerHTML = ICON.share + ' Share this vehicle';
+$('share').addEventListener('click', async () => {
+  const data = {title: `${v.brand} ${v.model}`, text: v.name, url: location.href};
+  try {
+    if (navigator.share) { await navigator.share(data); return; }
+    await navigator.clipboard.writeText(location.href);
+    $('share').innerHTML = ICON.share + ' Link copied';
+    setTimeout(() => { $('share').innerHTML = ICON.share + ' Share this vehicle'; }, 2000);
+  } catch (_) { /* user dismissed the share sheet — nothing to do */ }
+});
+
+/* ---- enquiry form ----
+   Demo only: shows the confirmation without sending. On the live site this
+   posts into WordPress, where the enquiry is stored and emailed. */
+$('form').addEventListener('submit', e => {
+  e.preventDefault();
+  $('form').style.display = 'none';
+  $('ok').style.display = 'block';
+});
+</script>
+</body>
+</html>

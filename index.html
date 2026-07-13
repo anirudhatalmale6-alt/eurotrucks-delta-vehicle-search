@@ -499,9 +499,10 @@ const na = '<em>on request</em>';
 
 function card(v){
   const fav = FAVS.has(v.url) ? 'on' : '';
+  const href = `vehicle.html?i=${VEHICLES.indexOf(v)}`;
   return `<article class="veh">
     <div class="ph">
-      <img src="${v.img}" alt="${v.name}" loading="lazy">
+      <a href="${href}"><img src="${v.img}" alt="${v.name}" loading="lazy"></a>
       <div class="strp">www.eurotrucks-delta.net</div>
       <button class="heart ${fav}" data-u="${v.url}" aria-label="Save">${I.heart}</button>
     </div>
@@ -521,7 +522,7 @@ function card(v){
         Fuel consumption (comb.)¹: on request · CO₂ emission (comb.)¹: on request<br>
         ¹ Figures shown in accordance with German Pkw-EnVKV where applicable.
       </div>
-      <a class="more" href="${v.url}" target="_blank" rel="noopener">More details</a>
+      <a class="more" href="${href}">More details</a>
     </div>
   </article>`;
 }

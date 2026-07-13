@@ -10,7 +10,22 @@ const VEHICLES = [
   "cat": "Cargo Box",
   "feats": [],
   "fuel": "Diesel",
-  "gear": "Manual"
+  "gear": "Manual",
+  "gallery": [
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/4-13.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/1-13.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/2-11.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/3-12.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/6-8.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/7-12.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/8-12.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/9-12.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/10-12.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/11-12.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/12-12.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/13-12.jpg"
+  ],
+  "desc": "2023 Iveco Daily 35C16 3.0L Laadklep Dubbellucht Climate Co"
  },
  {
   "name": "2023 Volkswagen Crafter 2.0 TDI 140 PK L3H3 Cruise Control Apple",
@@ -23,7 +38,22 @@ const VEHICLES = [
   "cat": "Van",
   "feats": [],
   "fuel": "Diesel",
-  "gear": "Manual"
+  "gear": "Manual",
+  "gallery": [
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/08/4-29.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/08/1-29.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/08/2-29.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/08/3-29.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/08/5-27.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/08/7-27.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/08/8-29.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/08/9-30.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/08/10-29.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/08/11-29.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/08/12-29.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/08/13-28.jpg"
+  ],
+  "desc": "2023 Volkswagen Crafter 2.0 TDI 140 PK L3H3 Cruise Control Apple"
  },
  {
   "name": "2022 Ford Transit 2.0 TDCI 130pk Laadklep Airco Cruise Con",
@@ -36,7 +66,22 @@ const VEHICLES = [
   "cat": "Van",
   "feats": [],
   "fuel": "Diesel",
-  "gear": "Manual"
+  "gear": "Manual",
+  "gallery": [
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/4-14.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/1-14.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/5-8.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/7-13.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/8-13.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/9-13.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/10-13.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/11-13.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/12-13.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/13-13.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/15-12.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/08/4-19.jpg"
+  ],
+  "desc": "2022 Ford Transit 2.0 TDCI 130pk Laadklep Airco Cruise Con"
  },
  {
   "name": "2022 Mercedes-Benz Sprinter 315 1.9 CDI Automaat Laadklep Airco Cru",
@@ -49,7 +94,22 @@ const VEHICLES = [
   "cat": "Cargo Box",
   "feats": [],
   "fuel": "Diesel",
-  "gear": "Automatic"
+  "gear": "Automatic",
+  "gallery": [
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/4-10.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/1-10.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/2-8.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/3-9.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/5-5.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/7-9.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/8-9.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/9-9.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/10-9.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/11-9.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/12-9.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/13-9.jpg"
+  ],
+  "desc": "2022 Mercedes-Benz Sprinter 315 1.9 CDI Automaat Laadklep Airco Cru"
  },
  {
   "name": "2021 Mercedes-Benz Sprinter 519 CDI Kuhlkoffer -20+20/ Carrier Xari",
@@ -64,7 +124,22 @@ const VEHICLES = [
    "Carrier Xari"
   ],
   "fuel": "Diesel",
-  "gear": "Manual"
+  "gear": "Manual",
+  "gallery": [
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/08/1-125.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/08/2-127.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/08/3-127.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/08/4-128.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/08/5-119.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/08/6-59.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/08/7-119.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/08/8-127.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/08/9-127.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/08/10-127.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/08/11-127.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/08/12-127.jpg"
+  ],
+  "desc": "2021 Mercedes-Benz Sprinter 519 CDI Kuhlkoffer -20+20/ Carrier Xari"
  },
  {
   "name": "2020 Mercedes-Benz Sprinter 314 2.2 CDI Automaat Laadklep Zijdeur C",
@@ -77,7 +152,22 @@ const VEHICLES = [
   "cat": "Cargo Box",
   "feats": [],
   "fuel": "Diesel",
-  "gear": "Automatic"
+  "gear": "Automatic",
+  "gallery": [
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/4-17.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/1-17.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/2-14.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/3-16.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/5-11.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/7-16.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/8-16.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/9-16.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/10-16.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/11-15.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/12-16.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/13-16.jpg"
+  ],
+  "desc": "2020 Mercedes-Benz Sprinter 314 2.2 CDI Automaat Laadklep Zijdeur C"
  },
  {
   "name": "2020 Mercedes-Benz Sprinter 314 2.2 CDI Automaat Laadklep Zijdeur T",
@@ -90,7 +180,22 @@ const VEHICLES = [
   "cat": "Cargo Box",
   "feats": [],
   "fuel": "Diesel",
-  "gear": "Automatic"
+  "gear": "Automatic",
+  "gallery": [
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/4-12.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/1-12.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/2-10.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/3-11.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/5-7.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/7-11.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/8-11.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/9-11.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/10-11.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/11-11.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/12-11.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/13-11.jpg"
+  ],
+  "desc": "2020 Mercedes-Benz Sprinter 314 2.2 CDI Automaat Laadklep Zijdeur T"
  },
  {
   "name": "2020 Mercedes-Benz Sprinter 514 2.2 CDI Dubbellucht Laadklep Airco",
@@ -103,7 +208,22 @@ const VEHICLES = [
   "cat": "Cargo Box",
   "feats": [],
   "fuel": "Diesel",
-  "gear": "Manual"
+  "gear": "Manual",
+  "gallery": [
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/4-11.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/1-11.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/2-9.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/3-10.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/5-6.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/7-10.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/8-10.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/9-10.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/10-10.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/11-10.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/12-10.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/13-10.jpg"
+  ],
+  "desc": "2020 Mercedes-Benz Sprinter 514 2.2 CDI Dubbellucht Laadklep Airco"
  },
  {
   "name": "2019 Iveco Daily 35S14 *Carrier*Ladebordwand*Klim*3Sitzer*E6",
@@ -120,7 +240,22 @@ const VEHICLES = [
    "Klim"
   ],
   "fuel": "Diesel",
-  "gear": "Manual"
+  "gear": "Manual",
+  "gallery": [
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/3-19.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/1-20.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/2-17.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/4-20.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/5-14.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/6-11.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/7-19.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/8-19.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/9-19.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/10-19.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/11-18.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/12-19.jpg"
+  ],
+  "desc": "2019 Daily35S14*Carrier*Ladebordwand*Klim*3Sitzer*E6"
  },
  {
   "name": "2019 Iveco Daily 70C18*Carrier Supra850*3-Sitzer*Klima*LBW*",
@@ -137,7 +272,22 @@ const VEHICLES = [
    "Klima"
   ],
   "fuel": "Diesel",
-  "gear": "Manual"
+  "gear": "Manual",
+  "gallery": [
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/3-17.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/1-18.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/2-15.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/4-18.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/5-12.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/6-9.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/7-17.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/8-17.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/9-17.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/10-17.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/11-16.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/12-17.jpg"
+  ],
+  "desc": "2019 Iveco Daily 70C18*Carrier Supra850*3-Sitzer*Klima*LBW*"
  },
  {
   "name": "2019 Mercedes-Benz Sprinter 514 2.2 CDI Dubbellucht Laadklep Airco",
@@ -150,7 +300,22 @@ const VEHICLES = [
   "cat": "Cargo Box",
   "feats": [],
   "fuel": "Diesel",
-  "gear": "Manual"
+  "gear": "Manual",
+  "gallery": [
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/4-15.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/1-15.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/2-12.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/3-14.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/5-9.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/7-14.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/8-14.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/9-14.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/10-14.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/11-14.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/12-14.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/13-14.jpg"
+  ],
+  "desc": "2019 Mercedes-Benz Sprinter 514 2.2 CDI Dubbellucht Laadklep Airco"
  },
  {
   "name": "2018 Scania R450 Retarder - € 34,000 -Net Price",
@@ -163,7 +328,22 @@ const VEHICLES = [
   "cat": "Tractor Unit",
   "feats": [],
   "fuel": "Diesel",
-  "gear": "Manual"
+  "gear": "Manual",
+  "gallery": [
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/03/10-7.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/03/IMG-20240919-WA000.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/03/IMG-20240919-WA00.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/03/IMG-20240919-WA0001.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/03/IMG-20240919-WA0002.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/03/IMG-20240919-WA0003.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/03/IMG-20240919-WA0004.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/03/IMG-20240919-WA0005.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/03/IMG-20240919-WA0006.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/03/IMG-20240919-WA0007.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/03/IMG-20240919-WA0008.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/03/IMG-20240919-WA0010.jpg"
+  ],
+  "desc": "2018 Scania R450 &#8211; Retarder &#8211; Euro6"
  },
  {
   "name": "2018 Mercedes-Benz Sprinter 211 2.2 CDI Automaat L2H2 Climate Contr",
@@ -176,7 +356,22 @@ const VEHICLES = [
   "cat": "Van",
   "feats": [],
   "fuel": "Diesel",
-  "gear": "Automatic"
+  "gear": "Automatic",
+  "gallery": [
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/08/4-61.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/08/1-60.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/08/2-154.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/08/5-59.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/08/7-55.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/08/8-61.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/08/9-61.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/08/10-61.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/08/12-61.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/08/13-60.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/08/11-154.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/08/15-141.jpg"
+  ],
+  "desc": "2018 Mercedes-Benz Sprinter 211 2.2 CDI Automaat L2H2 Climate Contr"
  },
  {
   "name": "2017 Iveco Daily 70C18/ Dreiseitenkipper/ Airco/ 7 Pers.",
@@ -193,7 +388,22 @@ const VEHICLES = [
    "7 Pers."
   ],
   "fuel": "Diesel",
-  "gear": "Manual"
+  "gear": "Manual",
+  "gallery": [
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/08/3-95.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/08/1-93.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/08/2-95.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/08/4-96.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/08/5-87.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/08/6-27.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/08/7-87.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/08/8-95.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/08/9-95.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/08/10-95.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/08/11-95.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/08/12-95.jpg"
+  ],
+  "desc": "2017 Iveco Daily 70C18/ Dreiseitenkipper/ Airco/ 7 Pers."
  },
  {
   "name": "2014 Iveco Stralis 310*Frigoblock*LBW*Klima*Vollluft*Euro6",
@@ -210,6 +420,21 @@ const VEHICLES = [
    "Klima"
   ],
   "fuel": "Diesel",
-  "gear": "Manual"
+  "gear": "Manual",
+  "gallery": [
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/3-18.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/1-19.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/2-16.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/4-19.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/5-13.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/6-10.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/7-18.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/8-18.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/9-18.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/10-18.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/11-17.jpg",
+   "https://eurotrucks-delta.net/wp-content/uploads/2025/09/12-18.jpg"
+  ],
+  "desc": "2014 Iveco Stralis 310*Frigoblock*LBW*Klima*Vollluft*Euro6"
  }
 ];
