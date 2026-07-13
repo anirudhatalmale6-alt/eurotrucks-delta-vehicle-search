@@ -4,343 +4,467 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>EuroTrucks Delta GmbH — Vehicle Search</title>
-<meta name="description" content="EuroTrucks Delta GmbH — trucks, vans and commercial vehicles from Wiesbaden, Germany.">
+<meta name="description" content="EuroTrucks Delta GmbH — trucks, vans and commercial vehicles. Wiesbaden, Germany.">
 <style>
   :root{
-    --navy:#021f6e; --navy-d:#01143f; --amber:#feb81c; --amber-d:#e0a012;
-    --ink:#16181d; --muted:#6b7280; --line:#e5e7eb; --bg:#f4f6f9; --white:#fff;
-    --radius:10px; --shadow:0 1px 3px rgba(16,24,40,.08),0 4px 16px rgba(16,24,40,.06);
+    --accent:#feb81c;          /* your amber — sits where Gegner uses orange */
+    --accent-d:#e5a413;
+    --navy:#021f6e;            /* your navy — sits where Gegner uses Ford blue */
+    --navy-l:#0b3d90;
+    --ink:#1a1a1a; --grey:#6b7280; --line:#e3e7ed;
+    --bg:#f9fafc; --card:#fff;
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.5;-webkit-font-smoothing:antialiased}
+  body{font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
   img{max-width:100%;display:block}
   a{color:inherit;text-decoration:none}
-  .wrap{max-width:1240px;margin:0 auto;padding:0 20px}
+  .wrap{max-width:1280px;margin:0 auto;padding:0 20px}
 
-  /* ---------- header ---------- */
-  .topbar{background:var(--navy-d);color:#c7d0e8;font-size:13px}
-  .topbar .wrap{display:flex;justify-content:space-between;align-items:center;height:38px;flex-wrap:wrap}
-  .topbar b{color:var(--amber);font-weight:600}
-  header{background:var(--navy);position:sticky;top:0;z-index:50;box-shadow:0 2px 12px rgba(2,31,110,.25)}
-  .head{display:flex;align-items:center;gap:26px;height:74px}
-  .logo{display:flex;align-items:center;gap:11px;color:#fff;font-weight:800;font-size:19px;letter-spacing:.3px;white-space:nowrap}
-  .logo .mark{width:38px;height:38px;border-radius:8px;background:var(--amber);color:var(--navy);display:grid;place-items:center;font-size:19px;font-weight:900}
-  .logo small{display:block;font-size:10.5px;font-weight:500;color:#9fb0d8;letter-spacing:1.6px;text-transform:uppercase}
-  nav{margin-left:auto;display:flex;gap:4px;align-items:center}
-  nav a{color:#dbe3f5;padding:9px 14px;border-radius:7px;font-size:14.5px;font-weight:500;transition:.15s}
-  nav a:hover{background:rgba(255,255,255,.1);color:#fff}
-  nav a.on{background:var(--amber);color:var(--navy);font-weight:700}
+  /* ---- split top strip (Gegner has orange left / blue right) ---- */
+  .strip{display:flex;height:9px}
+  .strip i{flex:1;background:var(--accent)}
+  .strip b{flex:1;background:var(--navy)}
 
-  /* ---------- hero ---------- */
-  .hero{background:linear-gradient(rgba(2,31,110,.86),rgba(1,20,63,.94)),
-        url('https://eurotrucks-delta.net/wp-content/uploads/2025/03/10-7.jpg') center/cover;
-        color:#fff;padding:56px 0 40px}
-  .hero h1{font-size:38px;line-height:1.15;font-weight:800;max-width:640px}
-  .hero h1 span{color:var(--amber)}
-  .hero p{margin-top:12px;color:#cdd7ee;font-size:16.5px;max-width:560px}
-  .stats{display:flex;gap:36px;margin-top:26px;flex-wrap:wrap}
-  .stat b{display:block;font-size:26px;color:var(--amber);font-weight:800;line-height:1.1}
-  .stat span{font-size:12.5px;color:#aebbd9;text-transform:uppercase;letter-spacing:1px}
+  /* ---- white header ---- */
+  header{background:#fff;position:sticky;top:0;z-index:60;box-shadow:0 2px 10px rgba(0,0,0,.07)}
+  .head{display:flex;align-items:center;gap:26px;height:88px}
+  .logo{display:flex;align-items:center;gap:10px;flex-shrink:0}
+  .logo .mk{width:44px;height:44px;border-radius:9px;background:var(--navy);color:var(--accent);display:grid;place-items:center;font-weight:900;font-size:22px}
+  .logo .tx{font-weight:800;font-size:21px;color:var(--navy);letter-spacing:-.2px;line-height:1.1}
+  .logo .tx small{display:block;font-size:10px;letter-spacing:2px;color:var(--grey);font-weight:600}
+  .tag{font-size:14.5px;color:#333;line-height:1.35;max-width:250px;border-left:2px solid var(--line);padding-left:20px}
+  nav{margin-left:auto;display:flex;align-items:center;gap:4px}
+  nav a{padding:9px 15px;border-radius:6px;font-size:15px;color:#222;font-weight:500;white-space:nowrap}
+  nav a:hover{color:var(--navy)}
+  nav a.on{background:var(--accent);color:var(--navy);font-weight:700}
+  .burger{display:none;margin-left:auto;background:none;border:0;font-size:26px;cursor:pointer;color:var(--navy)}
 
-  /* ---------- layout ---------- */
-  .main{display:grid;grid-template-columns:274px 1fr;gap:24px;padding:26px 0 48px;align-items:start}
+  /* ---- thin photo banner ---- */
+  .banner{height:96px;background:url('https://eurotrucks-delta.net/wp-content/uploads/2025/03/10-7.jpg') center 38%/cover;position:relative}
+  .banner:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(2,31,110,.55),rgba(2,31,110,0) 60%)}
 
-  /* ---------- filters ---------- */
-  .filters{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;position:sticky;top:92px}
-  .filters h3{font-size:12px;text-transform:uppercase;letter-spacing:1.3px;color:var(--navy);margin-bottom:14px;padding-bottom:10px;border-bottom:2px solid var(--amber)}
-  .fgroup{margin-bottom:17px}
-  .fgroup label{display:block;font-size:12.5px;font-weight:600;color:#374151;margin-bottom:6px}
-  select,input[type=search]{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:7px;font-size:14px;font-family:inherit;background:#fff;color:var(--ink)}
-  select:focus,input:focus{outline:2px solid var(--amber);outline-offset:0;border-color:var(--amber)}
-  .row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-  .chips{display:flex;flex-wrap:wrap;gap:6px}
-  .chip{border:1px solid var(--line);background:#fff;border-radius:20px;padding:6px 12px;font-size:12.5px;cursor:pointer;transition:.14s;font-family:inherit;color:#374151}
-  .chip:hover{border-color:var(--navy)}
-  .chip.on{background:var(--navy);border-color:var(--navy);color:#fff;font-weight:600}
-  .btn{width:100%;padding:11px;border:0;border-radius:7px;font-weight:700;font-size:14px;cursor:pointer;font-family:inherit;transition:.15s}
-  .btn-reset{background:#eef1f6;color:#4b5563}
-  .btn-reset:hover{background:#e2e6ee}
+  /* ---- layout ---- */
+  .cols{display:grid;grid-template-columns:290px 1fr;gap:26px;padding:26px 0 50px;align-items:start}
 
-  /* ---------- results ---------- */
-  .bar{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:13px 18px;display:flex;align-items:center;gap:14px;margin-bottom:18px;flex-wrap:wrap}
-  .bar .count{font-weight:700;font-size:15px}
-  .bar .count em{color:var(--navy);font-style:normal}
-  .bar .sortwrap{margin-left:auto;display:flex;align-items:center;gap:8px}
-  .bar .sortwrap span{font-size:13px;color:var(--muted);white-space:nowrap}
-  .bar select{width:auto;min-width:170px}
+  /* ---- filter sidebar ---- */
+  .side{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:18px}
+  .types{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:6px;overflow:hidden;margin-bottom:18px}
+  .type{background:#fff;border:0;padding:13px 4px;cursor:pointer;display:grid;place-items:center;gap:3px;transition:.12s}
+  .type svg{width:30px;height:22px;fill:var(--accent);transition:.12s}
+  .type span{font-size:9.5px;color:var(--grey);font-weight:600;text-align:center;line-height:1.1}
+  .type:hover{background:#fff8e8}
+  .type.on{background:#eef1f7}
+  .type.on svg{fill:var(--navy)}
+  .type.on span{color:var(--navy)}
 
-  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-  .card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column;transition:.18s;border:1px solid transparent}
-  .card:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(16,24,40,.14);border-color:var(--amber)}
-  .thumb{position:relative;aspect-ratio:4/3;background:#e9edf3;overflow:hidden}
-  .thumb img{width:100%;height:100%;object-fit:cover;transition:.4s}
-  .card:hover .thumb img{transform:scale(1.05)}
-  .badge{position:absolute;top:10px;left:10px;background:var(--amber);color:var(--navy);font-size:11.5px;font-weight:800;padding:4px 9px;border-radius:5px;letter-spacing:.4px}
-  .cat{position:absolute;top:10px;right:10px;background:rgba(1,20,63,.85);color:#fff;font-size:11px;font-weight:600;padding:4px 9px;border-radius:5px}
-  .body{padding:14px 15px 16px;display:flex;flex-direction:column;flex:1}
-  .brand{font-size:11.5px;text-transform:uppercase;letter-spacing:1.1px;color:var(--muted);font-weight:700}
-  .title{font-size:15.5px;font-weight:700;margin:3px 0 10px;line-height:1.32;min-height:41px}
-  .specs{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px}
-  .spec{background:#f1f4f9;color:#4b5563;font-size:11px;padding:3px 8px;border-radius:4px;font-weight:600}
-  .foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between;padding-top:11px;border-top:1px solid var(--line)}
-  .price b{font-size:20px;color:var(--navy);font-weight:800}
-  .price span{display:block;font-size:10.5px;color:var(--muted)}
-  .go{background:var(--navy);color:#fff;padding:8px 14px;border-radius:6px;font-size:13px;font-weight:700;transition:.15s}
-  .card:hover .go{background:var(--amber);color:var(--navy)}
-  .empty{grid-column:1/-1;background:#fff;border-radius:var(--radius);padding:56px 20px;text-align:center;box-shadow:var(--shadow)}
-  .empty b{display:block;font-size:17px;margin-bottom:5px}
-  .empty p{color:var(--muted);font-size:14px}
+  .fl{display:block;font-size:13.5px;font-weight:600;color:#333;margin:0 0 5px}
+  .fg{margin-bottom:14px}
+  select,input[type=search],input[type=number]{width:100%;padding:9px 10px;border:1px solid #cfd6df;border-radius:5px;font-size:14px;font-family:inherit;background:#fff;color:var(--ink)}
+  select:focus,input:focus{outline:2px solid var(--accent);border-color:var(--accent)}
+  .pair{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .swatches{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+  .sw{width:31px;height:31px;border-radius:50%;border:2px solid #d6dce4;cursor:pointer;padding:0;transition:.12s}
+  .sw:hover{transform:scale(1.1)}
+  .sw.on{border-color:var(--navy);box-shadow:0 0 0 2px var(--accent)}
+  .equip{max-height:168px;overflow-y:auto;border:1px solid var(--line);border-radius:5px;padding:9px}
+  .eq{display:flex;align-items:center;gap:8px;padding:3px 0;font-size:13.5px;color:#374151;cursor:pointer}
+  .eq input{width:15px;height:15px;accent-color:var(--navy);cursor:pointer}
+  .apply{width:100%;padding:12px;background:var(--accent);color:var(--navy);border:0;border-radius:5px;font-weight:800;font-size:15px;cursor:pointer;font-family:inherit;margin-top:16px}
+  .apply:hover{background:var(--accent-d)}
+  .rst{display:block;width:100%;text-align:center;margin-top:10px;background:none;border:0;color:var(--grey);font-size:14px;cursor:pointer;font-family:inherit;text-decoration:underline}
+  hr{border:0;border-top:1px solid var(--line);margin:15px 0}
 
-  /* ---------- footer ---------- */
-  footer{background:var(--navy-d);color:#93a3c6;padding:40px 0 26px;font-size:13.5px}
-  .fcols{display:grid;grid-template-columns:2fr 1fr 1fr;gap:32px;padding-bottom:26px;border-bottom:1px solid rgba(255,255,255,.1)}
-  footer h4{color:#fff;font-size:13px;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:12px}
+  /* ---- results toolbar ---- */
+  .tools{display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap}
+  .tools h1{font-size:25px;font-weight:800;color:var(--ink)}
+  .tools .sp{margin-left:auto;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+  .tools label{font-size:14px;color:var(--grey)}
+  .tools select{width:auto;min-width:150px}
+  .vw{display:flex;border:1px solid #cfd6df;border-radius:5px;overflow:hidden}
+  .vw button{background:#fff;border:0;padding:9px 11px;cursor:pointer;display:grid;place-items:center}
+  .vw button.on{background:var(--accent)}
+  .vw svg{width:16px;height:16px;fill:#5b6472}
+  .vw button.on svg{fill:var(--navy)}
+  .fav-t{background:#fff;border:1px solid #cfd6df;border-radius:5px;padding:8px 11px;cursor:pointer;display:grid;place-items:center}
+  .fav-t svg{width:17px;height:17px;fill:#c3cbd6}
+  .fav-t.on svg{fill:#e23b3b}
+
+  /* ---- cards ---- */
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .grid.list{grid-template-columns:1fr}
+  .veh{background:var(--card);border:1px solid var(--line);border-radius:8px;overflow:hidden;display:flex;flex-direction:column;transition:.16s}
+  .veh:hover{box-shadow:0 6px 22px rgba(16,24,40,.12)}
+  .grid.list .veh{flex-direction:row}
+  .grid.list .ph{width:330px;flex-shrink:0}
+  .ph{position:relative;aspect-ratio:16/11;background:#eceff3;overflow:hidden}
+  .grid.list .ph{aspect-ratio:auto}
+  .ph img{width:100%;height:100%;object-fit:cover}
+  .heart{position:absolute;right:11px;bottom:11px;width:36px;height:36px;border-radius:50%;background:#fff;border:0;cursor:pointer;display:grid;place-items:center;box-shadow:0 2px 7px rgba(0,0,0,.22)}
+  .heart svg{width:18px;height:18px;fill:#c3cbd6;transition:.12s}
+  .heart.on svg{fill:#e23b3b}
+  .strp{position:absolute;left:0;right:0;bottom:0;background:var(--accent);color:var(--navy);font-weight:800;font-size:12.5px;padding:5px 12px;letter-spacing:.3px}
+  .in{padding:15px 17px 17px;display:flex;flex-direction:column;flex:1}
+  .mk{font-size:14px;color:var(--grey)}
+  .ttl{font-size:18px;font-weight:800;margin:2px 0 8px;line-height:1.25;color:var(--ink)}
+  .pr{font-size:25px;font-weight:800;color:var(--navy);margin-bottom:13px}
+  .pr small{font-size:12px;color:var(--grey);font-weight:600;display:block;margin-top:1px}
+  .sp2{display:grid;grid-template-columns:1fr 1fr;gap:7px 14px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+  .s{display:flex;align-items:center;gap:7px;font-size:13.5px;color:#3d4451}
+  .s svg{width:15px;height:15px;fill:var(--navy);flex-shrink:0}
+  .s em{font-style:normal;color:#9aa2ad}
+  .wltp{font-size:11.5px;color:#9aa2ad;line-height:1.55;padding:10px 0 13px}
+  .more{margin-top:auto;display:block;width:100%;text-align:center;padding:12px;background:var(--navy);color:#fff;border-radius:5px;font-weight:700;font-size:15px;transition:.14s}
+  .veh:hover .more{background:var(--navy-l)}
+  .none{grid-column:1/-1;background:#fff;border:1px solid var(--line);border-radius:8px;padding:60px 20px;text-align:center}
+  .none b{display:block;font-size:18px;margin-bottom:5px}
+  .none p{color:var(--grey)}
+
+  /* ---- service block ---- */
+  .svc{background:#fff;border-top:1px solid var(--line);padding:48px 0}
+  .svc h2{font-size:27px;font-weight:800;color:var(--navy);margin-bottom:5px}
+  .svc .sub{color:var(--accent-d);font-weight:700;margin-bottom:22px}
+  .svc p{color:#4b5563;max-width:760px;margin-bottom:14px}
+  .three{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:30px}
+  .three div{border:1px solid var(--line);border-radius:8px;padding:22px}
+  .three h3{font-size:17px;color:var(--navy);margin-bottom:7px}
+  .three p{font-size:14px;color:var(--grey);margin:0}
+
+  /* ---- footer ---- */
+  footer{background:var(--navy);color:#a9b6d6;padding:42px 0 24px;font-size:14px}
+  .fc{display:grid;grid-template-columns:2fr 1fr 1fr;gap:34px;padding-bottom:26px;border-bottom:1px solid rgba(255,255,255,.13)}
+  footer h4{color:#fff;font-size:13px;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:13px}
   footer li{list-style:none;margin-bottom:7px}
-  footer a:hover{color:var(--amber)}
-  .legal{padding-top:20px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-size:12.5px}
-  .demo{background:var(--amber);color:var(--navy);text-align:center;padding:9px 16px;font-size:13.5px;font-weight:600}
+  footer a:hover{color:var(--accent)}
+  .lg{padding-top:19px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-size:13px}
+  .demo{background:var(--navy);color:var(--accent);text-align:center;padding:9px 16px;font-size:13.5px;font-weight:600}
 
-  @media(max-width:1000px){
-    .main{grid-template-columns:1fr}
-    .filters{position:static}
-    .grid{grid-template-columns:repeat(2,1fr)}
-    .fcols{grid-template-columns:1fr 1fr}
+  @media(max-width:1050px){
+    .cols{grid-template-columns:1fr}
+    .tag{display:none}
     nav{display:none}
-  }
-  @media(max-width:640px){
-    .grid{grid-template-columns:1fr}
-    .hero h1{font-size:28px}
-    .fcols{grid-template-columns:1fr}
+    .burger{display:block}
+    .grid,.grid.list{grid-template-columns:1fr}
+    .grid.list .ph{width:100%;aspect-ratio:16/11}
+    .three{grid-template-columns:1fr}
+    .fc{grid-template-columns:1fr}
   }
 </style>
 </head>
 <body>
 
-<div class="demo">DEMO — built for EuroTrucks Delta GmbH using your real stock. Not live yet.</div>
+<div class="demo">DEMO for EuroTrucks Delta GmbH — same layout as the reference site, your trucks, your brand.</div>
 
-<div class="topbar"><div class="wrap">
-  <span>Herderstr. 12, 65185 Wiesbaden · Germany</span>
-  <span>Export worldwide · <b>Trucks · Vans · Trailers</b></span>
-</div></div>
+<div class="strip"><i></i><b></b></div>
 
 <header><div class="wrap head">
   <a class="logo" href="#">
-    <span class="mark">E</span>
-    <span>EuroTrucks Delta<small>GmbH · since 1991</small></span>
+    <span class="mk">E</span>
+    <span class="tx">EuroTrucks Delta<small>GMBH</small></span>
   </a>
+  <div class="tag">since 1991 your reliable and competent commercial vehicle partner</div>
   <nav>
-    <a class="on" href="#">Vehicles</a>
-    <a href="#">Services</a>
-    <a href="#">Financing</a>
-    <a href="#">Transport</a>
-    <a href="#">About us</a>
-    <a href="#">Contact</a>
+    <a class="on" href="#">Home</a>
+    <a href="#">Workshop</a>
+    <a href="#">Service</a>
+    <a href="#">Locations</a>
+    <a href="#">Jobs</a>
   </nav>
+  <button class="burger" aria-label="Menu">&#9776;</button>
 </div></header>
 
-<section class="hero"><div class="wrap">
-  <h1>Find your next <span>commercial vehicle</span></h1>
-  <p>Trucks, tractor units, vans and trailers — inspected, ready to drive, delivered across Europe.</p>
-  <div class="stats">
-    <div class="stat"><b id="statCount">15</b><span>Vehicles in stock</span></div>
-    <div class="stat"><b>8</b><span>Categories</span></div>
-    <div class="stat"><b>EU</b><span>Delivery &amp; export</span></div>
-  </div>
-</div></section>
+<div class="banner"></div>
 
-<div class="wrap main">
+<div class="wrap cols">
 
-  <aside class="filters">
-    <h3>Filter</h3>
+  <!-- ================= FILTERS ================= -->
+  <aside class="side">
+    <div class="types" id="types"></div>
 
-    <div class="fgroup">
-      <label for="q">Search</label>
-      <input type="search" id="q" placeholder="e.g. Sprinter, Scania…">
-    </div>
+    <div class="fg"><label class="fl" for="q">Search</label>
+      <input type="search" id="q" placeholder="e.g. Sprinter, Scania…"></div>
 
-    <div class="fgroup">
-      <label>Vehicle type</label>
-      <div class="chips" id="cats"></div>
-    </div>
+    <div class="fg"><label class="fl" for="brand">Make</label>
+      <select id="brand"><option value="">All makes</option></select></div>
 
-    <div class="fgroup">
-      <label for="brand">Make</label>
-      <select id="brand"><option value="">All makes</option></select>
-    </div>
+    <div class="fg"><label class="fl" for="cat">Category</label>
+      <select id="cat"><option value="">All categories</option></select></div>
 
-    <div class="fgroup">
-      <label>Price (€)</label>
-      <div class="row2">
-        <select id="pmin"><option value="">From</option></select>
-        <select id="pmax"><option value="">To</option></select>
-      </div>
-    </div>
+    <div class="fg"><label class="fl" for="fuel">Fuel</label>
+      <select id="fuel"><option value="">All fuels</option><option>Diesel</option><option>Electric</option><option>Hybrid</option></select></div>
 
-    <div class="fgroup">
-      <label>First registration</label>
-      <div class="row2">
-        <select id="ymin"><option value="">From</option></select>
-        <select id="ymax"><option value="">To</option></select>
-      </div>
-    </div>
+    <div class="fg"><label class="fl" for="gear">Gearbox</label>
+      <select id="gear"><option value="">All</option><option>Automatic</option><option>Manual</option></select></div>
 
-    <div class="fgroup">
-      <label for="gear">Gearbox</label>
-      <select id="gear">
-        <option value="">Any</option>
-        <option>Automatic</option>
-        <option>Manual</option>
-      </select>
-    </div>
+    <hr>
 
-    <button class="btn btn-reset" id="reset">Reset all filters</button>
+    <div class="fg"><label class="fl">Price (€)</label>
+      <div class="pair"><input type="number" id="pmin" placeholder="from"><input type="number" id="pmax" placeholder="to"></div></div>
+
+    <div class="fg"><label class="fl">First registration</label>
+      <div class="pair"><input type="number" id="ymin" placeholder="from"><input type="number" id="ymax" placeholder="to"></div></div>
+
+    <div class="fg"><label class="fl">Mileage (km)</label>
+      <div class="pair"><input type="number" id="kmin" placeholder="from"><input type="number" id="kmax" placeholder="to"></div></div>
+
+    <div class="fg"><label class="fl">Power (HP)</label>
+      <div class="pair"><input type="number" id="hmin" placeholder="from"><input type="number" id="hmax" placeholder="to"></div></div>
+
+    <hr>
+
+    <div class="fg"><label class="fl">Exterior colour</label>
+      <div class="swatches" id="sw"></div></div>
+
+    <hr>
+
+    <div class="fg"><label class="fl">Equipment</label>
+      <div class="equip" id="equip"></div></div>
+
+    <button class="apply" id="apply">Apply filter</button>
+    <button class="rst" id="reset">Reset</button>
   </aside>
 
+  <!-- ================= RESULTS ================= -->
   <main>
-    <div class="bar">
-      <span class="count"><em id="n">15</em> vehicles found</span>
-      <div class="sortwrap">
-        <span>Sort by</span>
+    <div class="tools">
+      <h1><span id="n">15</span> Vehicles</h1>
+      <div class="sp">
+        <label for="sort">Sort by:</label>
         <select id="sort">
           <option value="new">Newest first</option>
-          <option value="plow">Price — low to high</option>
-          <option value="phigh">Price — high to low</option>
-          <option value="year">Year — newest</option>
+          <option value="plow">Price ascending</option>
+          <option value="phigh">Price descending</option>
+          <option value="year">Year</option>
         </select>
+        <div class="vw">
+          <button id="vgrid" class="on" aria-label="Grid view">
+            <svg viewBox="0 0 16 16"><rect x="0" y="0" width="7" height="7" rx="1"/><rect x="9" y="0" width="7" height="7" rx="1"/><rect x="0" y="9" width="7" height="7" rx="1"/><rect x="9" y="9" width="7" height="7" rx="1"/></svg>
+          </button>
+          <button id="vlist" aria-label="List view">
+            <svg viewBox="0 0 16 16"><rect x="0" y="1" width="16" height="3" rx="1"/><rect x="0" y="6.5" width="16" height="3" rx="1"/><rect x="0" y="12" width="16" height="3" rx="1"/></svg>
+          </button>
+        </div>
+        <button class="fav-t" id="favonly" title="Show only favourites">
+          <svg viewBox="0 0 24 24"><path d="M12 21s-8-5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 6-8 11-8 11z"/></svg>
+        </button>
       </div>
     </div>
     <div class="grid" id="grid"></div>
   </main>
 </div>
 
+<!-- ================= SERVICE ================= -->
+<section class="svc"><div class="wrap">
+  <h2>Minimise your downtime</h2>
+  <div class="sub">EuroTrucks Delta Service</div>
+  <p>Whether it is scheduled maintenance, a routine inspection or an unexpected repair — we are your reliable partner. We keep your commercial vehicles productive and your service costs low.</p>
+  <div class="three">
+    <div><h3>Inspected vehicles</h3><p>Every vehicle we sell goes through a full quality check, so you can be certain you are buying a truck in sound condition.</p></div>
+    <div><h3>Warranty</h3><p>Comprehensive cover for private and commercial buyers alike, so your vehicle stays dependable long after the sale.</p></div>
+    <div><h3>Export &amp; delivery</h3><p>Registration service, transport and export paperwork handled for you — anywhere in Europe.</p></div>
+  </div>
+</div></section>
+
 <footer><div class="wrap">
-  <div class="fcols">
+  <div class="fc">
     <div>
       <h4>EuroTrucks Delta GmbH</h4>
-      <p style="max-width:380px">Commercial vehicle trading since 1991. Trucks, tractor units, vans, tippers and trailers — sold and exported across Europe from our yard in Wiesbaden.</p>
+      <p style="max-width:400px">Commercial vehicle trading since 1991. Trucks, tractor units, vans, tippers and trailers — sold and exported across Europe from our yard in Wiesbaden.</p>
     </div>
     <div>
       <h4>Vehicles</h4>
       <ul>
-        <li><a href="#">Trucks</a></li>
-        <li><a href="#">Tractor units</a></li>
-        <li><a href="#">Vans</a></li>
-        <li><a href="#">Trailers &amp; semitrailers</a></li>
-        <li><a href="#">Tippers</a></li>
+        <li><a href="#">Trucks</a></li><li><a href="#">Tractor units</a></li>
+        <li><a href="#">Vans</a></li><li><a href="#">Trailers</a></li><li><a href="#">Tippers</a></li>
       </ul>
     </div>
     <div>
       <h4>Company</h4>
       <ul>
-        <li><a href="#">Contact</a></li>
-        <li><a href="#">Impressum</a></li>
-        <li><a href="#">Datenschutz</a></li>
-        <li><a href="#">AGB</a></li>
+        <li><a href="#">Contact</a></li><li><a href="#">Impressum</a></li>
+        <li><a href="#">Datenschutz</a></li><li><a href="#">AGB</a></li>
       </ul>
     </div>
   </div>
-  <div class="legal">
-    <span>© 2026 EuroTrucks Delta GmbH — all rights reserved.</span>
-    <span>Wiesbaden, Germany</span>
-  </div>
+  <div class="lg"><span>© 2026 EuroTrucks Delta GmbH</span><span>Herderstr. 12, 65185 Wiesbaden · Germany</span></div>
 </div></footer>
 
 <script src="vehicles.js"></script>
 <script>
-  const $ = id => document.getElementById(id);
-  const fmt = n => '€' + n.toLocaleString('de-DE');
-  const state = { q:'', cats:new Set(), brand:'', pmin:'', pmax:'', ymin:'', ymax:'', gear:'', sort:'new' };
+const $ = i => document.getElementById(i);
+const eur = n => n.toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2}) + ' €';
 
-  // --- populate controls from the data, so it always matches real stock ---
-  const cats   = [...new Set(VEHICLES.map(v => v.cat))].sort();
-  const brands = [...new Set(VEHICLES.map(v => v.brand))].sort();
-  const years  = [...new Set(VEHICLES.map(v => v.year))].sort((a,b) => b-a);
-  const prices = [10000,15000,20000,25000,30000,40000,50000];
+/* icons */
+const I = {
+  truck:'<svg viewBox="0 0 24 24"><path d="M1 6h11v9H1zM12 9h5l4 3v3h-9z"/><circle cx="5" cy="17" r="2"/><circle cx="17" cy="17" r="2"/></svg>',
+  van:'<svg viewBox="0 0 24 24"><path d="M1 7h13v8H1zM14 9h4l3 3v3h-7z"/><circle cx="5.5" cy="16.5" r="1.8"/><circle cx="17" cy="16.5" r="1.8"/></svg>',
+  tractor:'<svg viewBox="0 0 24 24"><path d="M2 8h7v7H2zM9 6h6l3 4v5H9z"/><circle cx="5" cy="17" r="2"/><circle cx="16" cy="17" r="2"/></svg>',
+  trailer:'<svg viewBox="0 0 24 24"><path d="M2 6h18v8H2z"/><circle cx="7" cy="16.5" r="1.8"/><circle cx="15" cy="16.5" r="1.8"/></svg>',
+  tipper:'<svg viewBox="0 0 24 24"><path d="M3 13l3-7 10 3-2 5z"/><path d="M16 10h3l2 3v3h-6z"/><circle cx="6" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></svg>',
+  bus:'<svg viewBox="0 0 24 24"><path d="M3 4h18v11H3z"/><circle cx="7" cy="17" r="1.8"/><circle cx="17" cy="17" r="1.8"/></svg>',
+  cal:'<svg viewBox="0 0 24 24"><path d="M7 2v3M17 2v3M3 8h18M4 5h16v16H4z" fill="none" stroke="currentColor" stroke-width="2"/></svg>',
+  road:'<svg viewBox="0 0 24 24"><path d="M4 21L8 3h8l4 18h-4l-1-5h-6l-1 5z"/></svg>',
+  bolt:'<svg viewBox="0 0 24 24"><path d="M13 2L4 14h6l-1 8 9-12h-6z"/></svg>',
+  fuel:'<svg viewBox="0 0 24 24"><path d="M3 3h10v18H3zM15 8l3 3v7a2 2 0 0 1-4 0"/></svg>',
+  gear:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"stroke="currentColor" stroke-width="2" fill="none"/></svg>',
+  tag:'<svg viewBox="0 0 24 24"><path d="M5 3h14v18l-7-5-7 5z"/></svg>',
+  heart:'<svg viewBox="0 0 24 24"><path d="M12 21s-8-5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 6-8 11-8 11z"/></svg>',
+};
 
-  $('cats').innerHTML = cats.map(c => `<button class="chip" data-c="${c}">${c}</button>`).join('');
-  $('brand').insertAdjacentHTML('beforeend', brands.map(b => `<option>${b}</option>`).join(''));
-  prices.forEach(p => {
-    $('pmin').insertAdjacentHTML('beforeend', `<option value="${p}">${fmt(p)}</option>`);
-    $('pmax').insertAdjacentHTML('beforeend', `<option value="${p}">${fmt(p)}</option>`);
-  });
-  years.forEach(y => {
-    $('ymin').insertAdjacentHTML('beforeend', `<option value="${y}">${y}</option>`);
-    $('ymax').insertAdjacentHTML('beforeend', `<option value="${y}">${y}</option>`);
-  });
+/* vehicle-type tiles, like the reference site's icon grid */
+const TYPES = [
+  {k:'Truck',           i:'truck'},
+  {k:'Tractor Unit',    i:'tractor'},
+  {k:'Van',             i:'van'},
+  {k:'Cargo Box',       i:'trailer'},
+  {k:'Light Commercial',i:'tipper'},
+  {k:'Bus',             i:'bus'},
+];
+const COLOURS = [
+  ['Black','#111'],['Grey','#8a8f98'],['Beige','#e8dcc0'],['Red','#c62828'],['Blue','#1546a0'],
+  ['Green','#1b7a35'],['Silver','#c8ccd2'],['White','#fff'],['Yellow','#f2c700'],['Orange','#e8862b'],
+];
+const EQUIP = ['ABS','Air conditioning','Cruise control','Tail lift','Cooling unit','Navigation',
+  'Bluetooth','Parking sensors','Reversing camera','Trailer hitch','ESP','Heated seats',
+  'Automatic climate','Euro 6','Twin wheels','Side door'];
 
-  function matches(v){
-    if (state.q){
-      const hay = (v.name + ' ' + v.brand + ' ' + v.cat).toLowerCase();
-      if (!state.q.toLowerCase().split(/\s+/).every(t => hay.includes(t))) return false;
-    }
-    if (state.cats.size && !state.cats.has(v.cat)) return false;
-    if (state.brand && v.brand !== state.brand)    return false;
-    if (state.gear  && v.gear  !== state.gear)     return false;
-    if (state.pmin && v.price < +state.pmin) return false;
-    if (state.pmax && v.price > +state.pmax) return false;
-    if (state.ymin && v.year  < +state.ymin) return false;
-    if (state.ymax && v.year  > +state.ymax) return false;
-    return true;
+const S = {q:'',types:new Set(),brand:'',cat:'',fuel:'',gear:'',
+  pmin:'',pmax:'',ymin:'',ymax:'',kmin:'',kmax:'',hmin:'',hmax:'',
+  colours:new Set(),equip:new Set(),sort:'new',favOnly:false};
+
+let FAVS = new Set(JSON.parse(localStorage.getItem('etd_favs') || '[]'));
+const saveFavs = () => localStorage.setItem('etd_favs', JSON.stringify([...FAVS]));
+
+/* ---- build controls from the real data ---- */
+$('types').innerHTML = TYPES.map(t =>
+  `<button class="type" data-t="${t.k}">${I[t.i]}<span>${t.k}</span></button>`).join('');
+[...new Set(VEHICLES.map(v=>v.brand))].sort().forEach(b =>
+  $('brand').insertAdjacentHTML('beforeend', `<option>${b}</option>`));
+[...new Set(VEHICLES.map(v=>v.cat))].sort().forEach(c =>
+  $('cat').insertAdjacentHTML('beforeend', `<option>${c}</option>`));
+$('sw').innerHTML = COLOURS.map(([n,c]) =>
+  `<button class="sw" data-c="${n}" title="${n}" style="background:${c}"></button>`).join('');
+$('equip').innerHTML = EQUIP.map(e =>
+  `<label class="eq"><input type="checkbox" value="${e}">${e}</label>`).join('');
+
+/* ---- filtering ---- */
+function ok(v){
+  if (S.q){
+    const hay = (v.name+' '+v.brand+' '+v.cat).toLowerCase();
+    if (!S.q.toLowerCase().split(/\s+/).every(t=>hay.includes(t))) return false;
   }
+  if (S.types.size && !S.types.has(v.cat)) return false;
+  if (S.brand && v.brand!==S.brand) return false;
+  if (S.cat   && v.cat  !==S.cat)   return false;
+  if (S.fuel  && v.fuel !==S.fuel)  return false;
+  if (S.gear  && v.gear !==S.gear)  return false;
+  if (S.pmin && v.price < +S.pmin) return false;
+  if (S.pmax && v.price > +S.pmax) return false;
+  if (S.ymin && v.year  < +S.ymin) return false;
+  if (S.ymax && v.year  > +S.ymax) return false;
+  if (S.favOnly && !FAVS.has(v.url)) return false;
+  // mileage / power / colour / equipment: these fields don't exist on the
+  // products yet — see the note to the client. Once added they filter here.
+  return true;
+}
+const SORT = {plow:(a,b)=>a.price-b.price, phigh:(a,b)=>b.price-a.price,
+              year:(a,b)=>b.year-a.year,   new:(a,b)=>b.year-a.year};
 
-  const SORTS = {
-    plow:  (a,b) => a.price - b.price,
-    phigh: (a,b) => b.price - a.price,
-    year:  (a,b) => b.year  - a.year,
-    new:   (a,b) => b.year  - a.year,
-  };
+const na = '<em>on request</em>';
 
-  function render(){
-    const list = VEHICLES.filter(matches).sort(SORTS[state.sort]);
-    $('n').textContent = list.length;
+function card(v){
+  const fav = FAVS.has(v.url) ? 'on' : '';
+  return `<article class="veh">
+    <div class="ph">
+      <img src="${v.img}" alt="${v.name}" loading="lazy">
+      <div class="strp">www.eurotrucks-delta.net</div>
+      <button class="heart ${fav}" data-u="${v.url}" aria-label="Save">${I.heart}</button>
+    </div>
+    <div class="in">
+      <div class="mk">${v.brand}</div>
+      <h3 class="ttl">${v.model}</h3>
+      <div class="pr">${eur(v.price)}<small>excl. VAT</small></div>
+      <div class="sp2">
+        <div class="s">${I.cal}<span>${v.year}</span></div>
+        <div class="s">${I.road}<span>${na}</span></div>
+        <div class="s">${I.bolt}<span>${na}</span></div>
+        <div class="s">${I.fuel}<span>${v.fuel}</span></div>
+        <div class="s">${I.gear}<span>${v.gear}</span></div>
+        <div class="s">${I.tag}<span>${v.cat}</span></div>
+      </div>
+      <div class="wltp">
+        Fuel consumption (comb.)¹: on request · CO₂ emission (comb.)¹: on request<br>
+        ¹ Figures shown in accordance with German Pkw-EnVKV where applicable.
+      </div>
+      <a class="more" href="${v.url}" target="_blank" rel="noopener">More details</a>
+    </div>
+  </article>`;
+}
 
-    $('grid').innerHTML = list.length ? list.map(v => `
-      <article class="card">
-        <div class="thumb">
-          <img src="${v.img}" alt="${v.name}" loading="lazy">
-          <span class="badge">${v.year}</span>
-          <span class="cat">${v.cat}</span>
-        </div>
-        <div class="body">
-          <span class="brand">${v.brand}</span>
-          <h3 class="title">${v.model}</h3>
-          <div class="specs">
-            <span class="spec">${v.fuel}</span>
-            <span class="spec">${v.gear}</span>
-            ${v.feats.map(f => `<span class="spec">${f}</span>`).join('')}
-          </div>
-          <div class="foot">
-            <div class="price"><b>${fmt(v.price)}</b><span>excl. VAT</span></div>
-            <span class="go">Details</span>
-          </div>
-        </div>
-      </article>`).join('')
-      : `<div class="empty"><b>No vehicles match your filters</b><p>Try widening the price or year range, or reset the filters.</p></div>`;
-  }
+function render(){
+  const list = VEHICLES.filter(ok).sort(SORT[S.sort]);
+  $('n').textContent = list.length;
+  $('grid').innerHTML = list.length ? list.map(card).join('')
+    : `<div class="none"><b>No vehicles match your filters</b><p>Try widening the range, or reset the filters.</p></div>`;
+}
 
-  // --- wiring ---
-  $('q').addEventListener('input', e => { state.q = e.target.value; render(); });
-  $('cats').addEventListener('click', e => {
-    const b = e.target.closest('.chip'); if (!b) return;
-    const c = b.dataset.c;
-    state.cats.has(c) ? state.cats.delete(c) : state.cats.add(c);
-    b.classList.toggle('on');
-    render();
-  });
-  ['brand','pmin','pmax','ymin','ymax','gear','sort'].forEach(id =>
-    $(id).addEventListener('change', e => { state[id] = e.target.value; render(); })
-  );
-  $('reset').addEventListener('click', () => {
-    Object.assign(state, { q:'', brand:'', pmin:'', pmax:'', ymin:'', ymax:'', gear:'', sort:'new' });
-    state.cats.clear();
-    document.querySelectorAll('.chip.on').forEach(c => c.classList.remove('on'));
-    ['q','brand','pmin','pmax','ymin','ymax','gear'].forEach(id => $(id).value = '');
-    $('sort').value = 'new';
-    render();
-  });
-
-  $('statCount').textContent = VEHICLES.length;
+/* ---- wiring ---- */
+$('q').addEventListener('input', e => { S.q = e.target.value; render(); });
+$('types').addEventListener('click', e => {
+  const b = e.target.closest('.type'); if(!b) return;
+  const t = b.dataset.t;
+  S.types.has(t) ? S.types.delete(t) : S.types.add(t);
+  b.classList.toggle('on'); render();
+});
+$('sw').addEventListener('click', e => {
+  const b = e.target.closest('.sw'); if(!b) return;
+  const c = b.dataset.c;
+  S.colours.has(c) ? S.colours.delete(c) : S.colours.add(c);
+  b.classList.toggle('on'); render();
+});
+$('equip').addEventListener('change', e => {
+  const v = e.target.value;
+  e.target.checked ? S.equip.add(v) : S.equip.delete(v);
   render();
+});
+['brand','cat','fuel','gear','pmin','pmax','ymin','ymax','kmin','kmax','hmin','hmax','sort']
+  .forEach(id => $(id).addEventListener('change', e => { S[id] = e.target.value; render(); }));
+
+$('grid').addEventListener('click', e => {
+  const h = e.target.closest('.heart'); if(!h) return;
+  e.preventDefault();
+  const u = h.dataset.u;
+  FAVS.has(u) ? FAVS.delete(u) : FAVS.add(u);
+  h.classList.toggle('on'); saveFavs();
+  if (S.favOnly) render();
+});
+$('favonly').addEventListener('click', () => {
+  S.favOnly = !S.favOnly;
+  $('favonly').classList.toggle('on', S.favOnly);
+  render();
+});
+$('vgrid').addEventListener('click', () => {
+  $('grid').classList.remove('list');
+  $('vgrid').classList.add('on'); $('vlist').classList.remove('on');
+});
+$('vlist').addEventListener('click', () => {
+  $('grid').classList.add('list');
+  $('vlist').classList.add('on'); $('vgrid').classList.remove('on');
+});
+$('apply').addEventListener('click', render);
+$('reset').addEventListener('click', () => {
+  Object.assign(S,{q:'',brand:'',cat:'',fuel:'',gear:'',pmin:'',pmax:'',ymin:'',ymax:'',
+                   kmin:'',kmax:'',hmin:'',hmax:'',sort:'new',favOnly:false});
+  S.types.clear(); S.colours.clear(); S.equip.clear();
+  document.querySelectorAll('.type.on,.sw.on').forEach(x=>x.classList.remove('on'));
+  document.querySelectorAll('#equip input').forEach(x=>x.checked=false);
+  ['q','brand','cat','fuel','gear','pmin','pmax','ymin','ymax','kmin','kmax','hmin','hmax']
+    .forEach(id=>$(id).value='');
+  $('sort').value='new';
+  $('favonly').classList.remove('on');
+  render();
+});
+
+render();
 </script>
 </body>
 </html>
