@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EuroTrucks Delta GmbH — Vehicle Search</title>
+<meta name="description" content="EuroTrucks Delta GmbH — trucks, vans and commercial vehicles from Wiesbaden, Germany.">
+<style>
+  :root{
+    --navy:#021f6e; --navy-d:#01143f; --amber:#feb81c; --amber-d:#e0a012;
+    --ink:#16181d; --muted:#6b7280; --line:#e5e7eb; --bg:#f4f6f9; --white:#fff;
+    --radius:10px; --shadow:0 1px 3px rgba(16,24,40,.08),0 4px 16px rgba(16,24,40,.06);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.5;-webkit-font-smoothing:antialiased}
+  img{max-width:100%;display:block}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1240px;margin:0 auto;padding:0 20px}
+
+  /* ---------- header ---------- */
+  .topbar{background:var(--navy-d);color:#c7d0e8;font-size:13px}
+  .topbar .wrap{display:flex;justify-content:space-between;align-items:center;height:38px;flex-wrap:wrap}
+  .topbar b{color:var(--amber);font-weight:600}
+  header{background:var(--navy);position:sticky;top:0;z-index:50;box-shadow:0 2px 12px rgba(2,31,110,.25)}
+  .head{display:flex;align-items:center;gap:26px;height:74px}
+  .logo{display:flex;align-items:center;gap:11px;color:#fff;font-weight:800;font-size:19px;letter-spacing:.3px;white-space:nowrap}
+  .logo .mark{width:38px;height:38px;border-radius:8px;background:var(--amber);color:var(--navy);display:grid;place-items:center;font-size:19px;font-weight:900}
+  .logo small{display:block;font-size:10.5px;font-weight:500;color:#9fb0d8;letter-spacing:1.6px;text-transform:uppercase}
+  nav{margin-left:auto;display:flex;gap:4px;align-items:center}
+  nav a{color:#dbe3f5;padding:9px 14px;border-radius:7px;font-size:14.5px;font-weight:500;transition:.15s}
+  nav a:hover{background:rgba(255,255,255,.1);color:#fff}
+  nav a.on{background:var(--amber);color:var(--navy);font-weight:700}
+
+  /* ---------- hero ---------- */
+  .hero{background:linear-gradient(rgba(2,31,110,.86),rgba(1,20,63,.94)),
+        url('https://eurotrucks-delta.net/wp-content/uploads/2025/03/10-7.jpg') center/cover;
+        color:#fff;padding:56px 0 40px}
+  .hero h1{font-size:38px;line-height:1.15;font-weight:800;max-width:640px}
+  .hero h1 span{color:var(--amber)}
+  .hero p{margin-top:12px;color:#cdd7ee;font-size:16.5px;max-width:560px}
+  .stats{display:flex;gap:36px;margin-top:26px;flex-wrap:wrap}
+  .stat b{display:block;font-size:26px;color:var(--amber);font-weight:800;line-height:1.1}
+  .stat span{font-size:12.5px;color:#aebbd9;text-transform:uppercase;letter-spacing:1px}
+
+  /* ---------- layout ---------- */
+  .main{display:grid;grid-template-columns:274px 1fr;gap:24px;padding:26px 0 48px;align-items:start}
+
+  /* ---------- filters ---------- */
+  .filters{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;position:sticky;top:92px}
+  .filters h3{font-size:12px;text-transform:uppercase;letter-spacing:1.3px;color:var(--navy);margin-bottom:14px;padding-bottom:10px;border-bottom:2px solid var(--amber)}
+  .fgroup{margin-bottom:17px}
+  .fgroup label{display:block;font-size:12.5px;font-weight:600;color:#374151;margin-bottom:6px}
+  select,input[type=search]{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:7px;font-size:14px;font-family:inherit;background:#fff;color:var(--ink)}
+  select:focus,input:focus{outline:2px solid var(--amber);outline-offset:0;border-color:var(--amber)}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .chips{display:flex;flex-wrap:wrap;gap:6px}
+  .chip{border:1px solid var(--line);background:#fff;border-radius:20px;padding:6px 12px;font-size:12.5px;cursor:pointer;transition:.14s;font-family:inherit;color:#374151}
+  .chip:hover{border-color:var(--navy)}
+  .chip.on{background:var(--navy);border-color:var(--navy);color:#fff;font-weight:600}
+  .btn{width:100%;padding:11px;border:0;border-radius:7px;font-weight:700;font-size:14px;cursor:pointer;font-family:inherit;transition:.15s}
+  .btn-reset{background:#eef1f6;color:#4b5563}
+  .btn-reset:hover{background:#e2e6ee}
+
+  /* ---------- results ---------- */
+  .bar{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:13px 18px;display:flex;align-items:center;gap:14px;margin-bottom:18px;flex-wrap:wrap}
+  .bar .count{font-weight:700;font-size:15px}
+  .bar .count em{color:var(--navy);font-style:normal}
+  .bar .sortwrap{margin-left:auto;display:flex;align-items:center;gap:8px}
+  .bar .sortwrap span{font-size:13px;color:var(--muted);white-space:nowrap}
+  .bar select{width:auto;min-width:170px}
+
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column;transition:.18s;border:1px solid transparent}
+  .card:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(16,24,40,.14);border-color:var(--amber)}
+  .thumb{position:relative;aspect-ratio:4/3;background:#e9edf3;overflow:hidden}
+  .thumb img{width:100%;height:100%;object-fit:cover;transition:.4s}
+  .card:hover .thumb img{transform:scale(1.05)}
+  .badge{position:absolute;top:10px;left:10px;background:var(--amber);color:var(--navy);font-size:11.5px;font-weight:800;padding:4px 9px;border-radius:5px;letter-spacing:.4px}
+  .cat{position:absolute;top:10px;right:10px;background:rgba(1,20,63,.85);color:#fff;font-size:11px;font-weight:600;padding:4px 9px;border-radius:5px}
+  .body{padding:14px 15px 16px;display:flex;flex-direction:column;flex:1}
+  .brand{font-size:11.5px;text-transform:uppercase;letter-spacing:1.1px;color:var(--muted);font-weight:700}
+  .title{font-size:15.5px;font-weight:700;margin:3px 0 10px;line-height:1.32;min-height:41px}
+  .specs{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px}
+  .spec{background:#f1f4f9;color:#4b5563;font-size:11px;padding:3px 8px;border-radius:4px;font-weight:600}
+  .foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between;padding-top:11px;border-top:1px solid var(--line)}
+  .price b{font-size:20px;color:var(--navy);font-weight:800}
+  .price span{display:block;font-size:10.5px;color:var(--muted)}
+  .go{background:var(--navy);color:#fff;padding:8px 14px;border-radius:6px;font-size:13px;font-weight:700;transition:.15s}
+  .card:hover .go{background:var(--amber);color:var(--navy)}
+  .empty{grid-column:1/-1;background:#fff;border-radius:var(--radius);padding:56px 20px;text-align:center;box-shadow:var(--shadow)}
+  .empty b{display:block;font-size:17px;margin-bottom:5px}
+  .empty p{color:var(--muted);font-size:14px}
+
+  /* ---------- footer ---------- */
+  footer{background:var(--navy-d);color:#93a3c6;padding:40px 0 26px;font-size:13.5px}
+  .fcols{display:grid;grid-template-columns:2fr 1fr 1fr;gap:32px;padding-bottom:26px;border-bottom:1px solid rgba(255,255,255,.1)}
+  footer h4{color:#fff;font-size:13px;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:12px}
+  footer li{list-style:none;margin-bottom:7px}
+  footer a:hover{color:var(--amber)}
+  .legal{padding-top:20px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-size:12.5px}
+  .demo{background:var(--amber);color:var(--navy);text-align:center;padding:9px 16px;font-size:13.5px;font-weight:600}
+
+  @media(max-width:1000px){
+    .main{grid-template-columns:1fr}
+    .filters{position:static}
+    .grid{grid-template-columns:repeat(2,1fr)}
+    .fcols{grid-template-columns:1fr 1fr}
+    nav{display:none}
+  }
+  @media(max-width:640px){
+    .grid{grid-template-columns:1fr}
+    .hero h1{font-size:28px}
+    .fcols{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<div class="demo">DEMO — built for EuroTrucks Delta GmbH using your real stock. Not live yet.</div>
+
+<div class="topbar"><div class="wrap">
+  <span>Herderstr. 12, 65185 Wiesbaden · Germany</span>
+  <span>Export worldwide · <b>Trucks · Vans · Trailers</b></span>
+</div></div>
+
+<header><div class="wrap head">
+  <a class="logo" href="#">
+    <span class="mark">E</span>
+    <span>EuroTrucks Delta<small>GmbH · since 1991</small></span>
+  </a>
+  <nav>
+    <a class="on" href="#">Vehicles</a>
+    <a href="#">Services</a>
+    <a href="#">Financing</a>
+    <a href="#">Transport</a>
+    <a href="#">About us</a>
+    <a href="#">Contact</a>
+  </nav>
+</div></header>
+
+<section class="hero"><div class="wrap">
+  <h1>Find your next <span>commercial vehicle</span></h1>
+  <p>Trucks, tractor units, vans and trailers — inspected, ready to drive, delivered across Europe.</p>
+  <div class="stats">
+    <div class="stat"><b id="statCount">15</b><span>Vehicles in stock</span></div>
+    <div class="stat"><b>8</b><span>Categories</span></div>
+    <div class="stat"><b>EU</b><span>Delivery &amp; export</span></div>
+  </div>
+</div></section>
+
+<div class="wrap main">
+
+  <aside class="filters">
+    <h3>Filter</h3>
+
+    <div class="fgroup">
+      <label for="q">Search</label>
+      <input type="search" id="q" placeholder="e.g. Sprinter, Scania…">
+    </div>
+
+    <div class="fgroup">
+      <label>Vehicle type</label>
+      <div class="chips" id="cats"></div>
+    </div>
+
+    <div class="fgroup">
+      <label for="brand">Make</label>
+      <select id="brand"><option value="">All makes</option></select>
+    </div>
+
+    <div class="fgroup">
+      <label>Price (€)</label>
+      <div class="row2">
+        <select id="pmin"><option value="">From</option></select>
+        <select id="pmax"><option value="">To</option></select>
+      </div>
+    </div>
+
+    <div class="fgroup">
+      <label>First registration</label>
+      <div class="row2">
+        <select id="ymin"><option value="">From</option></select>
+        <select id="ymax"><option value="">To</option></select>
+      </div>
+    </div>
+
+    <div class="fgroup">
+      <label for="gear">Gearbox</label>
+      <select id="gear">
+        <option value="">Any</option>
+        <option>Automatic</option>
+        <option>Manual</option>
+      </select>
+    </div>
+
+    <button class="btn btn-reset" id="reset">Reset all filters</button>
+  </aside>
+
+  <main>
+    <div class="bar">
+      <span class="count"><em id="n">15</em> vehicles found</span>
+      <div class="sortwrap">
+        <span>Sort by</span>
+        <select id="sort">
+          <option value="new">Newest first</option>
+          <option value="plow">Price — low to high</option>
+          <option value="phigh">Price — high to low</option>
+          <option value="year">Year — newest</option>
+        </select>
+      </div>
+    </div>
+    <div class="grid" id="grid"></div>
+  </main>
+</div>
+
+<footer><div class="wrap">
+  <div class="fcols">
+    <div>
+      <h4>EuroTrucks Delta GmbH</h4>
+      <p style="max-width:380px">Commercial vehicle trading since 1991. Trucks, tractor units, vans, tippers and trailers — sold and exported across Europe from our yard in Wiesbaden.</p>
+    </div>
+    <div>
+      <h4>Vehicles</h4>
+      <ul>
+        <li><a href="#">Trucks</a></li>
+        <li><a href="#">Tractor units</a></li>
+        <li><a href="#">Vans</a></li>
+        <li><a href="#">Trailers &amp; semitrailers</a></li>
+        <li><a href="#">Tippers</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">Contact</a></li>
+        <li><a href="#">Impressum</a></li>
+        <li><a href="#">Datenschutz</a></li>
+        <li><a href="#">AGB</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="legal">
+    <span>© 2026 EuroTrucks Delta GmbH — all rights reserved.</span>
+    <span>Wiesbaden, Germany</span>
+  </div>
+</div></footer>
+
+<script src="vehicles.js"></script>
+<script>
+  const $ = id => document.getElementById(id);
+  const fmt = n => '€' + n.toLocaleString('de-DE');
+  const state = { q:'', cats:new Set(), brand:'', pmin:'', pmax:'', ymin:'', ymax:'', gear:'', sort:'new' };
+
+  // --- populate controls from the data, so it always matches real stock ---
+  const cats   = [...new Set(VEHICLES.map(v => v.cat))].sort();
+  const brands = [...new Set(VEHICLES.map(v => v.brand))].sort();
+  const years  = [...new Set(VEHICLES.map(v => v.year))].sort((a,b) => b-a);
+  const prices = [10000,15000,20000,25000,30000,40000,50000];
+
+  $('cats').innerHTML = cats.map(c => `<button class="chip" data-c="${c}">${c}</button>`).join('');
+  $('brand').insertAdjacentHTML('beforeend', brands.map(b => `<option>${b}</option>`).join(''));
+  prices.forEach(p => {
+    $('pmin').insertAdjacentHTML('beforeend', `<option value="${p}">${fmt(p)}</option>`);
+    $('pmax').insertAdjacentHTML('beforeend', `<option value="${p}">${fmt(p)}</option>`);
+  });
+  years.forEach(y => {
+    $('ymin').insertAdjacentHTML('beforeend', `<option value="${y}">${y}</option>`);
+    $('ymax').insertAdjacentHTML('beforeend', `<option value="${y}">${y}</option>`);
+  });
+
+  function matches(v){
+    if (state.q){
+      const hay = (v.name + ' ' + v.brand + ' ' + v.cat).toLowerCase();
+      if (!state.q.toLowerCase().split(/\s+/).every(t => hay.includes(t))) return false;
+    }
+    if (state.cats.size && !state.cats.has(v.cat)) return false;
+    if (state.brand && v.brand !== state.brand)    return false;
+    if (state.gear  && v.gear  !== state.gear)     return false;
+    if (state.pmin && v.price < +state.pmin) return false;
+    if (state.pmax && v.price > +state.pmax) return false;
+    if (state.ymin && v.year  < +state.ymin) return false;
+    if (state.ymax && v.year  > +state.ymax) return false;
+    return true;
+  }
+
+  const SORTS = {
+    plow:  (a,b) => a.price - b.price,
+    phigh: (a,b) => b.price - a.price,
+    year:  (a,b) => b.year  - a.year,
+    new:   (a,b) => b.year  - a.year,
+  };
+
+  function render(){
+    const list = VEHICLES.filter(matches).sort(SORTS[state.sort]);
+    $('n').textContent = list.length;
+
+    $('grid').innerHTML = list.length ? list.map(v => `
+      <article class="card">
+        <div class="thumb">
+          <img src="${v.img}" alt="${v.name}" loading="lazy">
+          <span class="badge">${v.year}</span>
+          <span class="cat">${v.cat}</span>
+        </div>
+        <div class="body">
+          <span class="brand">${v.brand}</span>
+          <h3 class="title">${v.model}</h3>
+          <div class="specs">
+            <span class="spec">${v.fuel}</span>
+            <span class="spec">${v.gear}</span>
+            ${v.feats.map(f => `<span class="spec">${f}</span>`).join('')}
+          </div>
+          <div class="foot">
+            <div class="price"><b>${fmt(v.price)}</b><span>excl. VAT</span></div>
+            <span class="go">Details</span>
+          </div>
+        </div>
+      </article>`).join('')
+      : `<div class="empty"><b>No vehicles match your filters</b><p>Try widening the price or year range, or reset the filters.</p></div>`;
+  }
+
+  // --- wiring ---
+  $('q').addEventListener('input', e => { state.q = e.target.value; render(); });
+  $('cats').addEventListener('click', e => {
+    const b = e.target.closest('.chip'); if (!b) return;
+    const c = b.dataset.c;
+    state.cats.has(c) ? state.cats.delete(c) : state.cats.add(c);
+    b.classList.toggle('on');
+    render();
+  });
+  ['brand','pmin','pmax','ymin','ymax','gear','sort'].forEach(id =>
+    $(id).addEventListener('change', e => { state[id] = e.target.value; render(); })
+  );
+  $('reset').addEventListener('click', () => {
+    Object.assign(state, { q:'', brand:'', pmin:'', pmax:'', ymin:'', ymax:'', gear:'', sort:'new' });
+    state.cats.clear();
+    document.querySelectorAll('.chip.on').forEach(c => c.classList.remove('on'));
+    ['q','brand','pmin','pmax','ymin','ymax','gear'].forEach(id => $(id).value = '');
+    $('sort').value = 'new';
+    render();
+  });
+
+  $('statCount').textContent = VEHICLES.length;
+  render();
+</script>
+</body>
+</html>
